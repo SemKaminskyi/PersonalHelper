@@ -4,33 +4,167 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     tools:context=".MainActivity">
 
     <android.widget.LinearLayout
-        android:layout_width="323dp"
-        android:layout_height="656dp"
+        android:layout_width="320dp"
+        android:layout_height="635dp"
+        android:layout_marginVertical="@android:dimen/thumbnail_height"
+        android:baselineAligned="true"
+        android:backgroundTintMode="screen"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:alpha="80"
+        android:background="@android:color/background_light"
+        android:gravity="center_horizontal"
+        android:layoutMode="clipBounds"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_vertical"
         tools:context=".MainActivityList"
         tools:ignore="MissingConstraints">
 
         <EditText
             android:id="@+id/EditText1"
-            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-
-            android:hint="Ваша цель/задача" />
+            android:layout_gravity="center_horizontal"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/EditText2"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:hint="Ваша цель/задача"
-            />
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText3"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText4"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText5"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+
+            android:id="@+id/EditText6"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText7"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText8"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText9"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText10"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+
+            android:id="@+id/EditText11"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText12"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText13"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/EditText14"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text" />
 
     </android.widget.LinearLayout>
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextDate"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
