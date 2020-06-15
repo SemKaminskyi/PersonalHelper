@@ -2,4 +2,6 @@
     <string name="app_name">PersonaHelper</string>
     <string name="EditText" tools:ignore="DuplicateDefinition">Ваша цель/задача</string>
     <string name="clock_WR">clock WR</string>
+    <string name="button" />
+    <string name="todo">TODO</string>
 </resources>
