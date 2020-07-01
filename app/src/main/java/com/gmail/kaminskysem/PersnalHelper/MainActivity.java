@@ -7,32 +7,34 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+import com.gmail.kaminskysem.PersnalHelper.planer.PlanerActivity;
 
-public class MainActivity2 extends AppCompatActivity {
-    private static String LOG_TAG = MainActivity2.class.getSimpleName();
+public class MainActivity extends AppCompatActivity {
+    private static String LOG_TAG = MainActivity.class.getSimpleName();
     private Button btnClockwork;
+    private Button btnPlaner;
 
-        View.OnClickListener btnOnClickClock =new View.OnClickListener(){
-
+        View.OnClickListener btnOnClickPlaner =new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG,"btnOnClickClock"+v);
-                Intent mainAct = new Intent(MainActivity2.this, MainActivity.class);
+                Intent mainAct = new Intent(MainActivity.this, PlanerActivity.class);
                 startActivity(mainAct);
+                Toast.makeText(MainActivity.this,"You click on Planer", Toast.LENGTH_LONG).show();
             }
         };
     // TODO: 16.06.2020 cheaking intent file and replace code of intent in MAnifest
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
 
         Log.d(LOG_TAG, "OnCreate, "+this);
-        btnClockwork = findViewById(R.id.btn_clockwork);
-        btnClockwork.setOnClickListener(btnOnClickClock);
+        btnPlaner = findViewById(R.id.btn_planer);
+        btnPlaner.setOnClickListener(btnOnClickPlaner);
 
     }
 

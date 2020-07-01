@@ -1,6 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.planer.model;
-
-import android.widget.EditText;
+package com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model;
 
 public final class CardDetails {
     private String task;
