@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/priroda_gory_nebo_ozero_oblaka_vertical"
+    tools:context=".MainActivity">
+
+    <android.widget.LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@android:dimen/thumbnail_height"
+        android:layout_marginTop="32dp"
+        android:background="#80ffffff"
+        android:layout_marginBottom="32dp"
+        android:backgroundTintMode="screen"
+        android:baselineAligned="true"
+        android:gravity="center_horizontal"
+        android:layoutMode="clipBounds"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".MainActivityList"
+        tools:ignore="MissingConstraints"
+
+
+        >
+
+
+        <EditText
+            android:id="@+id/et_EditText1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText3"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText4"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText5"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+
+            android:id="@+id/et_EditText6"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText7"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText8"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText9"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText10"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+
+            android:id="@+id/et_EditText11"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText12"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText13"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_EditText14"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:alpha="20"
+            android:autofillHints=""
+            android:hint="@string/EditText"
+            android:inputType="text"
+            android:textColor="#000000"
+            android:textColorHint="#BA000000"
+            android:textStyle="bold" />
+
+    </android.widget.LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
