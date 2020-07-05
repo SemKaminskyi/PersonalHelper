@@ -1,9 +1,9 @@
 package com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model;
 
-public final class CardDetails {
+public final class PlanerDetails {
     private String task;
 
-    public CardDetails(String task) {
+    public PlanerDetails(String task) {
         this.task = task;
     }
 

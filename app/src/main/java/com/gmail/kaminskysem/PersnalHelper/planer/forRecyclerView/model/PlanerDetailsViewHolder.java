@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.kaminskysem.PersnalHelper.R;
 
-public class CardDetailsViewHolder extends RecyclerView.ViewHolder {
-//    private final TextView task;
+public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
+    private final TextView task;
 
 
-    public CardDetailsViewHolder(@NonNull View itemView) {
+    public PlanerDetailsViewHolder(@NonNull View itemView) {
         super(itemView);
-//        task=itemView.findViewById(R.id.textView);
+        task=itemView.findViewById(R.id.textView);
     }
-//    void bind (CardDetails card){
-//        task.setText(card.getTask());
-//    }
+    void bind (PlanerDetails card){
+        task.setText(card.getTask());
+    }
 }

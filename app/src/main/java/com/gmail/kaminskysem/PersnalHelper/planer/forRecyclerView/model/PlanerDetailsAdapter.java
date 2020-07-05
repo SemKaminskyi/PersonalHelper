@@ -12,10 +12,10 @@ import com.gmail.kaminskysem.PersnalHelper.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardDetailsAdapter extends RecyclerView.Adapter<CardDetailsViewHolder> {
-    private final List<CardDetails> cards= new ArrayList<>();
+public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsViewHolder> {
+    private final List<PlanerDetails> cards= new ArrayList<>();
 
-    public void setCards(List<CardDetails> cards){
+    public void setCards(List<PlanerDetails> cards){
         this.cards.clear();
         this.cards.addAll(cards);
         notifyDataSetChanged();
@@ -23,17 +23,17 @@ public class CardDetailsAdapter extends RecyclerView.Adapter<CardDetailsViewHold
 
     @NonNull
     @Override
-    public CardDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PlanerDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_carddetails,parent,false);
 
-        return new CardDetailsViewHolder(parent);
+        return new PlanerDetailsViewHolder(v);
 
         }
 
     @Override
-    public void onBindViewHolder(@NonNull CardDetailsViewHolder holder, int position) {
-        CardDetails card =cards.get(position);
-//        holder.bind(card);
+    public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
+        PlanerDetails card =cards.get(position);
+        holder.bind(card);
     }
 
     @Override

@@ -104,10 +104,10 @@
        app:layout_constraintStart_toStartOf="@+id/btn_planer"
        app:layout_constraintTop_toBottomOf="@+id/btn_planer" />
 
-   <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="292dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
