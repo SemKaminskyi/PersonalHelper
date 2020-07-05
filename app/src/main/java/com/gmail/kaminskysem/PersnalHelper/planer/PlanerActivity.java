@@ -30,7 +30,7 @@ public class PlanerActivity extends AppCompatActivity {
         rvPlanerTask.setLayoutManager(new LinearLayoutManager(this));
 
         cardsList = new UserCardsProvider().getCardsDetails();
-        adapter.setCards(cardsList);
+//        adapter.setCards(cardsList);
 
         Log.d(LOG_TAG, "onCreate"+this);
     }
