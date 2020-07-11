@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_voda"
-    tools:context=".MainActivity">
+    tools:context=".Main.MainActivity">
 
 
     <Button
         android:id="@+id/btn_clockwork"
-        android:layout_width="80dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="@dimen/main_btn_weight"
+        android:layout_height="@dimen/main_btn_height"
+        android:layout_marginStart="@dimen/main_btn_margin_start_end_OfParent"
+        android:layout_marginTop="@dimen/main_btn_margin_top"
         android:background="@mipmap/ic_clock1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_clock"
-        android:layout_width="80dp"
+        android:layout_width="@dimen/main_btn_weight"
         android:layout_height="wrap_content"
         android:background="@color/Yellow"
         android:text="@string/clock_icon_name"
@@ -32,24 +32,24 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="80dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="36dp"
+        android:layout_width="@dimen/main_btn_weight"
+        android:layout_height="@dimen/main_btn_height"
+        android:layout_marginStart="@dimen/main_btn_margeStartEnd_diff_btn"
+        android:layout_marginTop="@dimen/main_btn_margin_top"
+        android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
         android:background="#9060605E"
         android:text="@string/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/button1"
+        app:layout_constraintStart_toEndOf="@+id/button4"
         app:layout_constraintTop_toBottomOf="@+id/btn_planer" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="80dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="@dimen/main_btn_weight"
+        android:layout_height="@dimen/main_btn_height"
+        android:layout_marginStart="@dimen/main_btn_margeStartEnd_diff_btn"
+        android:layout_marginTop="@dimen/main_btn_margin_top"
         android:background="#9060605E"
         android:text="@string/button"
         app:layout_constraintStart_toEndOf="@+id/button3"
@@ -58,11 +58,11 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="80dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="48dp"
+        android:layout_width="@dimen/main_btn_weight"
+        android:layout_height="@dimen/main_btn_height"
+        android:layout_marginStart="@dimen/main_btn_margin_start_end_OfParent"
+        android:layout_marginTop="@dimen/main_btn_margin_top"
+        android:layout_marginEnd="@dimen/main_btn_margeStartEnd_diff_btn"
         android:background="#9060605E"
         android:text="@string/button"
         app:layout_constraintEnd_toStartOf="@+id/button4"
@@ -71,10 +71,10 @@
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="80dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="@dimen/main_btn_weight"
+        android:layout_height="@dimen/main_btn_height"
+        android:layout_marginStart="@dimen/main_btn_margeStartEnd_diff_btn"
+        android:layout_marginTop="@dimen/main_btn_margin_top"
         android:background="#9060605E"
         android:text="@string/button"
         app:layout_constraintStart_toEndOf="@+id/btn_clockwork"
@@ -83,11 +83,11 @@
 
     <Button
         android:id="@+id/btn_planer"
-        android:layout_width="80dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="36dp"
+        android:layout_width="@dimen/main_btn_weight"
+        android:layout_height="@dimen/main_btn_height"
+        android:layout_marginStart="@dimen/main_btn_margeStartEnd_diff_btn"
+        android:layout_marginTop="@dimen/main_btn_margin_top"
+        android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
         android:background="@mipmap/ic_planer"
         android:text="@string/button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
    <TextView
-       android:layout_width="80dp"
+       android:layout_width="@dimen/main_btn_weight"
        android:layout_height="wrap_content"
        android:background="@color/Yellow"
        android:text="@string/planer_ic_name"

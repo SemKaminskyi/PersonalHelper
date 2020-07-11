@@ -14,7 +14,7 @@ public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
 
     public PlanerDetailsViewHolder(@NonNull View itemView) {
         super(itemView);
-        task=itemView.findViewById(R.id.textView);
+        task=itemView.findViewById(R.id.et_new_task);
     }
     void bind (PlanerDetails card){
         task.setText(card.getTask());

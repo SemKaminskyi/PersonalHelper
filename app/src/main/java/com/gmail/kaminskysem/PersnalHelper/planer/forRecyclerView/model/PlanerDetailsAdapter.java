@@ -13,18 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsViewHolder> {
-    private final List<PlanerDetails> cards= new ArrayList<>();
+    private final List<PlanerDetails> tasks= new ArrayList<>();
 
-    public void setCards(List<PlanerDetails> cards){
-        this.cards.clear();
-        this.cards.addAll(cards);
+    public void setPlaner(List<PlanerDetails> task){
+        this.tasks.clear();
+        this.tasks.addAll(task);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public PlanerDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_carddetails,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task_details,parent,false);
 
         return new PlanerDetailsViewHolder(v);
 
@@ -32,12 +32,12 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
 
     @Override
     public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
-        PlanerDetails card =cards.get(position);
-        holder.bind(card);
+        PlanerDetails task =tasks.get(position);
+        holder.bind(task);
     }
 
     @Override
     public int getItemCount() {
-        return cards.size();
+        return tasks.size();
     }
 }

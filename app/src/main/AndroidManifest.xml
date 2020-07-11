@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".MainActivity"
+        <activity android:name=".Main.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,8 @@
 
         </activity>
         <activity android:name=".planer.PlanerActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            >
         </activity>
     </application>
 

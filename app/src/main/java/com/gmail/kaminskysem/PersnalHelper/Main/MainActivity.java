@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper;
+package com.gmail.kaminskysem.PersnalHelper.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.planer.PlanerActivity;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,11 +1,28 @@
 package com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model;
 
-public final class PlanerDetails {
-    private String task;
+public class PlanerDetails {
+    private final long taskID =-1L;
 
-    public PlanerDetails(String task) {
+    private String task;
+    private Boolean checkTask =false;
+
+    public PlanerDetails(long taskID, String task, boolean checkTask ) {
         this.task = task;
+        this.checkTask =checkTask;
     }
+    public Long getTaskID() {
+        return taskID;
+    }
+
+
+    public Boolean getCheckTask() {
+        return checkTask;
+    }
+
+    public void setCheckTask(Boolean checkTask) {
+        this.checkTask = checkTask;
+    }
+
 
     public String getTask() {
         return task;
@@ -14,4 +31,6 @@ public final class PlanerDetails {
     public void setTask(String task) {
         this.task = task;
     }
+
 }
+
