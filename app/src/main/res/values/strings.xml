@@ -5,4 +5,9 @@
     <string name="todo">TODO</string>
     <string name="planer_new_task">new task</string>
     <string name="planer_ic_name">ПЛАНЕР</string>
+    <string name="start">start</string>
+    <string name="timer_time_to_work">time to work</string>
+    <string name="timer_time_to_rest">time to rest</string>
+    <string name="time">Time</string>
+    <string name="stop">Stop</string>
 </resources>

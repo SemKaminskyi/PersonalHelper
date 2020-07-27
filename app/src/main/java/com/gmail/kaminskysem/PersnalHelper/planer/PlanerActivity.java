@@ -24,7 +24,7 @@ public final class PlanerActivity extends AppCompatActivity {
     private PlanerDetailsAdapter adapter;
     private Button btnAddTask;
     private EditText etNewTask;
-    private String newTaskFromUser;
+
 
 
     @Override
@@ -37,7 +37,7 @@ public final class PlanerActivity extends AppCompatActivity {
         rvPlanerTask.setAdapter(adapter);
         rvPlanerTask.setLayoutManager(new LinearLayoutManager(this));
 
-//        List<PlanerDetails> planerList = null;// была ошибка в planerList - идея предложила создать поле
+        // нужный ли метод вызвал?
         tasksList = new InMemoryPlanerProvider().getPlanerDetails();
         adapter.setPlaner(tasksList);
 
@@ -48,29 +48,18 @@ public final class PlanerActivity extends AppCompatActivity {
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlanerDetails newTask = new PlanerDetails(-1, newTaskFromUser, false);
-                tasksList.add(0, newTask);
+//                PlanerDetails newTask = new PlanerDetails(-1, "", false);
+//                tasksList.add(0, newTask);
+
                 adapter.setPlaner(tasksList);
                 Log.d(LOG_TAG, "onClickBTNAdd" + this);
 
-                etNewTask = (EditText) findViewById(R.id.et_new_task);
-                if (etNewTask != null) {
 
-                    etNewTask.getShowSoftInputOnFocus();
-                    etNewTask.setSelected(true);
-                    newTaskFromUser = etNewTask.getText().toString();
-                    Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser);
-
-                    newTask.setTask(newTaskFromUser);
-                    Log.d(LOG_TAG, " added TEXT FROM EDIT TEXT IS: " + newTaskFromUser+ "new task: " +newTask.toString());
-                }
             }
         });
 
         Log.d(LOG_TAG, "onCreate" + this);
     }
-
-    // TODO: 15.06.2020   передалать список в recycleView
 
 
     @Override

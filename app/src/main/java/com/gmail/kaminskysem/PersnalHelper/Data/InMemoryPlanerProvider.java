@@ -1,6 +1,10 @@
 package com.gmail.kaminskysem.PersnalHelper.Data;
 
+import android.util.Log;
+import android.widget.EditText;
+
 import com.gmail.kaminskysem.PersnalHelper.Data.IUserPlanerProvider;
+import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model.PlanerDetails;
 
 import java.util.ArrayList;
@@ -45,7 +49,6 @@ public class InMemoryPlanerProvider implements IUserPlanerProvider {
         planerList.add(newTask);
         return taskId;
     }
-
 
 
 

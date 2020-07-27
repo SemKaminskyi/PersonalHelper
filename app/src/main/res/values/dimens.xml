@@ -6,4 +6,5 @@
     <dimen name="main_btn_margin_start_end_OfParent">36dp</dimen>
     <dimen name="main_btn_margeStartEnd_diff_btn">48dp</dimen>
     <dimen name="item_task_checkbox_size">48dp</dimen>
+    <dimen name="text_size_all_important">32sp</dimen>
 </resources>

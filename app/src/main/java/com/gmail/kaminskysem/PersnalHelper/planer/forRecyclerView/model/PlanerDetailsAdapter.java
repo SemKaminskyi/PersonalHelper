@@ -1,8 +1,10 @@
 package com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsViewHolder> {
     private final List<PlanerDetails> tasks= new ArrayList<>();
+    private final String LOG_TAG = PlanerDetailsAdapter.class.getSimpleName();
 
     public void setPlaner(List<PlanerDetails> task){
         this.tasks.clear();
@@ -30,10 +33,18 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
 
         }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
         PlanerDetails task =tasks.get(position);
+
+//           String newTaskFromUser = task.toString();
+//            Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser.toString());
+
+
         holder.bind(task);
+
     }
 
     @Override

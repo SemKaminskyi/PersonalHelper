@@ -4,8 +4,8 @@ import android.content.Context;
 
 public class DataProviderFactory {
 
-    public static UserTasksDataBaseHelper dbProvider;
-    public static final InMemoryPlanerProvider inMemoryProvider = InMemoryPlanerProvider.getInstance();
+    private static UserTasksDataBaseHelper dbProvider;
+    private static final InMemoryPlanerProvider inMemoryProvider = InMemoryPlanerProvider.getInstance();
 
     public static IUserPlanerProvider getDataProvider (Context context){
         if (dbProvider ==null){

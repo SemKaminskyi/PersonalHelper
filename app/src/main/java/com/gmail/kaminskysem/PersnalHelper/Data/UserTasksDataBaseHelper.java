@@ -18,14 +18,15 @@ import java.util.List;
 class UserTasksDataBaseHelper extends SQLiteOpenHelper implements IUserPlanerProvider {
     private static final String DB_NAME = "plan date base";
 
-    private static final String TABLE_PLANS = "plan";
+    private static final String TABLE_PLANS = "plans";
 
     private static final String KEY_TASK_ID = "task_id";
 
     private static final String KEY_TASK = "USER_TASK";
     private static final Boolean KEY_CHECK_PERFORMANCE_TASK = false;
+
     private static final String LOG_TAG =UserTasksDataBaseHelper.class.getSimpleName();
-    private EditText etTask;
+
 
     public UserTasksDataBaseHelper(@Nullable Context context) {
         super(context, DB_NAME, null, 1);
@@ -48,7 +49,7 @@ class UserTasksDataBaseHelper extends SQLiteOpenHelper implements IUserPlanerPro
     public PlanerDetails getTaskById(long id) {
         try (SQLiteDatabase db = getReadableDatabase()){
             PlanerDetails planerDetails = null;
-            String query = "SELECT * FROM " + TABLE_PLANS + " WERE "+ KEY_TASK_ID + " = ?";
+            String query = "SELECT * FROM " + TABLE_PLANS + " WHERE "+ KEY_TASK_ID + " = ?";
 
             Cursor cursor =db.rawQuery(query, new String[]{String.valueOf(id)});
             if(cursor.moveToFirst()){
