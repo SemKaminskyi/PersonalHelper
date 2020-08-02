@@ -16,4 +16,13 @@ public class imerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+    public static imerFragment newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        imerFragment fragment = new imerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 }
