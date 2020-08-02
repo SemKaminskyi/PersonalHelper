@@ -7,74 +7,9 @@
     tools:context=".Timer.TimerActivity"
     tools:ignore="ExtraText">
 
-
-    <Button
-        android:id="@+id/btn_timer_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
-        android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
-        android:text="@string/start"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_goneMarginBottom="@dimen/main_btn_margin_start_end_OfParent" />
-
-
-    //TODO I don't know what this errors but need fixed it
-
-    <EditText
-        android:id="@+id/et_Timer_time_to_work"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/main_btn_margin_start_end_OfParent"
-        android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
-        android:autofillHints=""
-        android:hint="@string/timer_time_to_work"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/btn_timer_start"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/et_Timer_time_to_rest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
-        android:autofillHints=""
-        android:hint="@string/timer_time_to_rest"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/btn_timer_start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.71"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/tv_Timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/time"
-        android:textSize="@dimen/text_size_all_important"
-        android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
-        app:layout_constraintBottom_toTopOf="@+id/et_Timer_time_to_work"
-        app:layout_constraintEnd_toStartOf="@+id/et_Timer_time_to_rest"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work" />
-
-    <Button
-        android:id="@+id/btn_timer_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_timer_start"
-        app:layout_constraintEnd_toStartOf="@+id/et_Timer_time_to_rest"
-        app:layout_constraintHorizontal_bias="0.242"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work"
-        app:layout_constraintTop_toBottomOf="@+id/et_Timer_time_to_work"
-        app:layout_constraintVertical_bias="1.0" />
-
-
+<fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

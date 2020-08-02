@@ -24,6 +24,9 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+        TimerFragment timerFragment = new TimerFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.)
 
         etWork = (EditText) findViewById(R.id.et_Timer_time_to_work);
         etRest = (EditText) findViewById(R.id.et_Timer_time_to_rest);
@@ -32,8 +35,15 @@ public class TimerActivity extends AppCompatActivity {
 
 
         textView = (TextView) findViewById(R.id.tv_Timer);
+// TODO working timer in new Thread and background process
+        boolean timerOn = true;
+            startWork();
+        bntStop = (Button) findViewById(R.id.btn_timer_stop);
+//        bntStop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//
+//        });
 
-       startWork();
     }
 
     private void startWork() {

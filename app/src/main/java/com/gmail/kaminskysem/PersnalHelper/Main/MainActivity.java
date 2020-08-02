@@ -11,12 +11,18 @@ import android.widget.Toast;
 
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
 import com.gmail.kaminskysem.PersnalHelper.R;
+import com.gmail.kaminskysem.PersnalHelper.Timer.TimerFragment;
 import com.gmail.kaminskysem.PersnalHelper.planer.PlanerActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static String LOG_TAG = MainActivity.class.getSimpleName();
     private Button btnTimer;
     private Button btnPlaner;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         View.OnClickListener btnOnClickPlaner =new View.OnClickListener(){
             @Override
@@ -36,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"You click on Timer", Toast.LENGTH_LONG).show();
             }
         };
-    // TODO: 16.06.2020 cheaking intent file and replace code of intent in MAnifest
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
 
         Log.d(LOG_TAG, "OnCreate, "+this);
