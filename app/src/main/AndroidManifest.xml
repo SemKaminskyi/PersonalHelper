@@ -26,6 +26,10 @@
         <activity
             android:name=".planer.PlanerActivity"
             android:launchMode="singleTop"></activity>
+        <service android:name=".Timer.Service.TimerService"
+                android:enabled="true"
+            android:exported="false"
+            />
     </application>
 
 </manifest>
