@@ -66,10 +66,12 @@ public class TimerTImerFragment extends Fragment {
 //            @Override
 //
 //        });
-        stringWorkTimer = etWork.getText().toString();
-        stringRestTimer = etRest.getText().toString();
 
             bntStart.setOnClickListener(v -> {
+        stringWorkTimer = etWork.getText().toString();
+        stringRestTimer = etRest.getText().toString();
+                Log.d(LOG_TAG, "TimerWorkFragment is " +stringWorkTimer);
+                Log.d(LOG_TAG, "TimerRestkFragment is " +stringRestTimer);
                 intent = new Intent(getView().getContext(), TimerService.class);
                 getView().getContext().startService(intent.putExtra("TimerWork", stringWorkTimer).putExtra("TimerRest", stringRestTimer).setAction("timeOn"));
 

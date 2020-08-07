@@ -47,6 +47,7 @@ public class TimerService extends Service {
                         @Override
                         public void onTick(long millisUntilFinished) {
                             String textWork = "seconds of  Work" + (int) (millisUntilFinished / 1000);
+                            Log.d(LOG_TAG, textWork);
                         }
 
                         @SuppressLint("SetTextI18n")
