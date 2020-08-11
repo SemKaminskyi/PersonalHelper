@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerService;
 
+import java.util.Objects;
+
 public class TimerTImerFragment extends Fragment {
     EditText etWork;
     EditText etRest;
@@ -28,7 +30,9 @@ public class TimerTImerFragment extends Fragment {
     TextView textView;
     private String stringWorkTimer;
     private String stringRestTimer;
-    private Intent intent;
+    private Intent intentStart;
+    private Intent intentStop;
+    boolean timerOn = true;
 
 
     public Button getBntStart() {
@@ -59,24 +63,31 @@ public class TimerTImerFragment extends Fragment {
         textView = getView().findViewById(R.id.tv_Timer);
 
         // TODO working timer in new Thread and background process
-        boolean timerOn = true;
 
         bntStop = getView().findViewById(R.id.btn_timer_stop);
-//        bntStop.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//
-//        });
+        bntStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerOn = false;
+                Log.d(LOG_TAG, "Service  is stopped from fragment " );
+                getView().getContext().startService(intentStart.setAction(String.valueOf(timerOn)));
 
-            bntStart.setOnClickListener(v -> {
-        stringWorkTimer = etWork.getText().toString();
-        stringRestTimer = etRest.getText().toString();
-                Log.d(LOG_TAG, "TimerWorkFragment is " +stringWorkTimer);
-                Log.d(LOG_TAG, "TimerRestkFragment is " +stringRestTimer);
-                intent = new Intent(getView().getContext(), TimerService.class);
-                getView().getContext().startService(intent.putExtra("TimerWork", stringWorkTimer).putExtra("TimerRest", stringRestTimer).setAction("timeOn"));
+            }
+        });
+
+        bntStart.setOnClickListener(v -> {
+            stringWorkTimer = etWork.getText().toString();
+            stringRestTimer = etRest.getText().toString();
+            Log.d(LOG_TAG, "TimerWorkFragment is " + stringWorkTimer);
+            Log.d(LOG_TAG, "TimerRestFragment is " + stringRestTimer);
+            intentStart = new Intent(getView().getContext(), TimerService.class);
+            getView().getContext().startService(intentStart
+                    .putExtra("TimerWork", stringWorkTimer)
+                    .putExtra("TimerRest", stringRestTimer)
+                    .setAction(String.valueOf(timerOn)));
 
 
-            Log.d(LOG_TAG, "bntStart ON CLICked "+v);
+            Log.d(LOG_TAG, "bntStart ON Clicked " + v);
         });
     }
 
