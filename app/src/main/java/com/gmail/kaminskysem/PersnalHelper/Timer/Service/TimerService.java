@@ -15,6 +15,8 @@ import java.util.Objects;
 
 public class TimerService extends Service {
     private final static String LOG_TAG = TimerService.class.getSimpleName();
+    private CountDownTimer countDownTimerWork;
+    private CountDownTimer countDownTimeRest;
 
     public TimerService() {
     }
@@ -32,19 +34,20 @@ public class TimerService extends Service {
         Log.d(LOG_TAG, "time  rest: " + intent.getStringExtra("TimerRest"));
         Log.d(LOG_TAG, "time  action: " + intent.getAction());
         RunWork(intent);
-
+        stopSelf();
         return START_STICKY;
     }
 
 
-
-    private void cancelByUser(Intent intent, CountDownTimer countDownTimeRest) {
+    private void cancelByUser(Intent intent) {
         if (Objects.equals(intent.getAction(), false)) {
+            countDownTimerWork.cancel();
             countDownTimeRest.cancel();
 
             Log.d(LOG_TAG, "countDownTimeRest stoped");
-        }
         stopService(intent);
+        onDestroy();
+        }
     }
 
     @Nullable
@@ -58,14 +61,14 @@ public class TimerService extends Service {
     private void RunWork(Intent intent) {
         String timeWork = intent.getStringExtra("TimerWork");
         if (!TextUtils.isEmpty(timeWork)) {
-            CountDownTimer countDownTimerWork = new CountDownTimer(Integer.parseInt(timeWork) * 1000, 1000) {
+            countDownTimerWork = new CountDownTimer(Integer.parseInt(timeWork) * 1000, 1000) {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onTick(long millisUntilFinished) {
                     String textWork = "seconds of  Work" + (int) (millisUntilFinished / 1000);
                     Log.d(LOG_TAG, " on Tick" + textWork);
-                    if (textWork.equals(false)) {
-                        stopService(intent);
+                    if (intent.getAction().equals(false)) {
+                        cancel();
                     }
                 }
 
@@ -76,40 +79,48 @@ public class TimerService extends Service {
                     RunRest(intent);
                 }
             }.start();
-            cancelByUser(intent, countDownTimerWork);
+            cancelByUser(intent);
         }
     }
+
     private void RunRest(Intent intent) {
         String timeRest = intent.getStringExtra("TimerRest");
         if (!TextUtils.isEmpty(timeRest)) {
-            CountDownTimer countDownTimeRest = new CountDownTimer(Integer.parseInt(timeRest) * 1000, 1000) {
+            countDownTimeRest = new CountDownTimer(Integer.parseInt(timeRest) * 1000, 1000) {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onTick(long millisUntilFinished) {
                     String textRest = "seconds of  rest" + (int) (millisUntilFinished / 1000);
                     Log.d(LOG_TAG, " on TickRest" + textRest);
-
+                    if (intent.getAction().equals(false)) {
+                        cancel();
+                    }
                 }
+
 
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onFinish() {
                     String finished = "Finished rest";
-                    RunWork(intent);
+//                    RunWork(intent);
                 }
 
             }.start();
-            cancelByUser(intent, countDownTimeRest);
+            cancelByUser(intent);
 
         }
     }
-    public boolean stopService(Intent intent){
-        if (intent.getAction().equals(false)){
+
+    public boolean stopService(Intent intent) {
+        if (intent.getAction().equals(false)) {
             stopService(intent);
         }
         return false;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
 
