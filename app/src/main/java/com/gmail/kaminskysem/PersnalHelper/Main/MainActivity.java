@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOG_TAG,"btnOnClickPlaner"+v);
                 Intent mainActPlaner = new Intent(MainActivity.this, PlanerActivity.class);
                 startActivity(mainActPlaner);
-                Toast.makeText(MainActivity.this,"You click on Planer", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,"You click on Planer", Toast.LENGTH_SHORT).show();
             }
         };
         View.OnClickListener btnOnClickTimer = new View.OnClickListener() {

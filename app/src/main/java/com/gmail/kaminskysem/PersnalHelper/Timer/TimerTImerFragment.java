@@ -2,6 +2,7 @@ package com.gmail.kaminskysem.PersnalHelper.Timer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -30,9 +31,8 @@ public class TimerTImerFragment extends Fragment {
     TextView textView;
     private String stringWorkTimer;
     private String stringRestTimer;
-    private Intent intentStart;
-    private Intent intentStop;
-    boolean timerOn = true;
+
+    private MediaPlayer mediaPlayer;
 
 
     public Button getBntStart() {
@@ -62,15 +62,17 @@ public class TimerTImerFragment extends Fragment {
 
         textView = getView().findViewById(R.id.tv_Timer);
 
-        // TODO working timer in new Thread and background process
 
         bntStop = getView().findViewById(R.id.btn_timer_stop);
         bntStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timerOn = false;
                 Log.d(LOG_TAG, "Service  is stopped from fragment " );
-                getView().getContext().startService(intentStart.setAction(String.valueOf(timerOn)));
+
+                Intent intentStop = new Intent(getView().getContext(), TimerService.class)
+                        .setAction(TimerService.ACTION_STOP_TIMER);
+
+                getView().getContext().startService(intentStop);
 
             }
         });
@@ -80,13 +82,14 @@ public class TimerTImerFragment extends Fragment {
             stringRestTimer = etRest.getText().toString();
             Log.d(LOG_TAG, "TimerWorkFragment is " + stringWorkTimer);
             Log.d(LOG_TAG, "TimerRestFragment is " + stringRestTimer);
-            intentStart = new Intent(getView().getContext(), TimerService.class);
-            getView().getContext().startService(intentStart
+            Intent intentStart = new Intent(getView().getContext(), TimerService.class)
                     .putExtra("TimerWork", stringWorkTimer)
                     .putExtra("TimerRest", stringRestTimer)
-                    .setAction(String.valueOf(timerOn)));
+                    .setAction(TimerService.ACTION_START_TIMER);
 
-
+            mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
+            mediaPlayer.start();
+            getView().getContext().startService(intentStart);
             Log.d(LOG_TAG, "bntStart ON Clicked " + v);
         });
     }
@@ -114,5 +117,11 @@ public class TimerTImerFragment extends Fragment {
 
     public EditText getEtWork() {
         return etWork;
+    }
+
+    @Override
+    public void onDestroyView() {
+        mediaPlayer.stop();
+        super.onDestroyView();
     }
 }
