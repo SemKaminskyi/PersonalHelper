@@ -26,7 +26,6 @@ public class TimerService extends Service {
     private MediaPlayer mediaPlayer;
     private String timeWork;
     private String timeRest;
-    private String currentTime;
 
 
     public TimerService() {
@@ -66,9 +65,8 @@ public class TimerService extends Service {
             long restMillis = Integer.parseInt(timerRest) * 1000;
             runWork(workMillis, restMillis);
 
-
             // start notifications
-            TimerNotificationsManager.showTimerNotifications(this, currentTime);
+            TimerNotificationsManager.showTimerNotifications(this, timerWork);
         startForeground(
                 Integer.parseInt(TimerNotificationsManager.getIdTimerServiceNotification())
                 ,TimerNotificationsManager.getNotification());
@@ -88,7 +86,7 @@ public class TimerService extends Service {
 
 
 
-    private void cancelByUser() {
+    public void cancelByUser() {
         cancelTimers();
         mediaPlayer.stop();
         stopSelf();
@@ -120,10 +118,11 @@ public class TimerService extends Service {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
-                timeWork = "seconds of  Work" + (int) (millisUntilFinished / 1000);
-                currentTime = timeWork;
+                timeWork = "seconds of  Work: " + (int) (millisUntilFinished / 1000);
+
+                TimerNotificationsManager.showTimerNotifications(getBaseContext(), timeWork);
+
                 Log.d(LOG_TAG, " on Tick" + timeWork);
-                Log.d(LOG_TAG, " currentTime " + currentTime);
             }
 
             @SuppressLint("SetTextI18n")
@@ -143,10 +142,10 @@ public class TimerService extends Service {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
-                timeRest = "seconds of  rest" + (int) (millisUntilFinished / 1000);
-                currentTime =timeRest;
+                timeRest = "rest: " + (int) (millisUntilFinished / 1000);
+                TimerNotificationsManager.showTimerNotifications(getBaseContext(), timeRest);
+
                 Log.d(LOG_TAG, " on TickRest" + timeRest);
-                Log.d(LOG_TAG, " currentTime " + currentTime);
 
             }
 

@@ -84,14 +84,18 @@ public class TimerTImerFragment extends Fragment {
 
             mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
             mediaPlayer.start();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                getView().getContext().startForegroundService(intentStart);
-            }else
+                getView().getContext().startService(intentStart);
+
             Log.d(LOG_TAG, "bntStart ON Clicked " + v);
         });
     }
 
 
+    @Override
+    public void onResume() {
+//        if(TimerService.)
+        super.onResume();
+    }
 
     @Override
     public void onDestroyView() {
