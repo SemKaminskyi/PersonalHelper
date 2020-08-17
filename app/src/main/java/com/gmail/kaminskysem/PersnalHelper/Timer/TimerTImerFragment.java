@@ -1,11 +1,9 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.gmail.kaminskysem.PersnalHelper.R;
@@ -35,10 +34,6 @@ public class TimerTImerFragment extends Fragment {
     private MediaPlayer mediaPlayer;
 
 
-    public Button getBntStart() {
-        return bntStart;
-    }
-
 
     private static String LOG_TAG = TimerTImerFragment.class.getSimpleName();
 
@@ -54,8 +49,8 @@ public class TimerTImerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etWork = getView().findViewById(R.id.et_Timer_time_to_work);
-        etRest = getView().findViewById(R.id.et_Timer_time_to_rest);
+        etWork = Objects.requireNonNull(getView()).findViewById(R.id.et_Timer_time_to_work);
+        etRest =  Objects.requireNonNull(getView().findViewById(R.id.et_Timer_time_to_rest));
 
         bntStart = getView().findViewById(R.id.btn_timer_start);
 
@@ -69,7 +64,7 @@ public class TimerTImerFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(LOG_TAG, "Service  is stopped from fragment " );
 
-                Intent intentStop = new Intent(getView().getContext(), TimerService.class)
+                Intent intentStop = new Intent(Objects.requireNonNull(getView()).getContext(), TimerService.class)
                         .setAction(TimerService.ACTION_STOP_TIMER);
 
                 getView().getContext().startService(intentStop);
@@ -89,35 +84,14 @@ public class TimerTImerFragment extends Fragment {
 
             mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
             mediaPlayer.start();
-            getView().getContext().startService(intentStart);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getView().getContext().startForegroundService(intentStart);
+            }else
             Log.d(LOG_TAG, "bntStart ON Clicked " + v);
         });
     }
 
-    public void workTimer() {
-        if (!TextUtils.isEmpty(stringWorkTimer)) {
-            long secondsWork = Long.parseLong(stringWorkTimer);
 
-        }
-    }
-
-
-    private void rest() {
-        if (!TextUtils.isEmpty(stringRestTimer)) {
-
-            long secondsWork = Long.parseLong(stringRestTimer);
-
-        }
-    }
-
-
-    public EditText getEtRest() {
-        return etRest;
-    }
-
-    public EditText getEtWork() {
-        return etWork;
-    }
 
     @Override
     public void onDestroyView() {

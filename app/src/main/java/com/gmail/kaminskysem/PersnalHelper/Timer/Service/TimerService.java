@@ -1,21 +1,17 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer.Service;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
+import com.gmail.kaminskysem.PersnalHelper.Notifications.TimerNotificationsManager;
 import com.gmail.kaminskysem.PersnalHelper.R;
 
 public class TimerService extends Service {
@@ -28,12 +24,9 @@ public class TimerService extends Service {
     private CountDownTimer countDownTimeRest;
 
     private MediaPlayer mediaPlayer;
-    private NotificationManager notificationManager;
-    private NotificationCompat.Builder notificationManagerBuilder;
-    private int idNotificationTimerService;
-    private String textWork;
+    private String timeWork;
     private String timeRest;
-    String currentTime;
+    private String currentTime;
 
 
     public TimerService() {
@@ -42,37 +35,17 @@ public class TimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManagerBuilder = getNotificationBuilder();
-
-        notificationManagerBuilder.setContentTitle("Timer service")
-                .setSmallIcon(R.drawable.ic_clock1_foreground);
+        //add notifications channels - maybe need move to TimerFragment or TimerActivity
+        TimerNotificationsManager.setupNotificationsChannels(this);
 
         Log.d(LOG_TAG, "onCreateTimerService");
     }
 
-    private NotificationCompat.Builder getNotificationBuilder() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return new NotificationCompat.Builder(this);
-        } else {
-            String timerServiceNotificationId = "timer service id";
-            NotificationChannel notificationChannel = new NotificationChannel(timerServiceNotificationId
-                    , "For working timer on background"
-                    , NotificationManager.IMPORTANCE_DEFAULT);
-            if (notificationManager.getNotificationChannel(timerServiceNotificationId) == null) {
-                notificationManager.createNotificationChannel(notificationChannel);
-            }
-            return new NotificationCompat.Builder(this, timerServiceNotificationId);
-        }
 
-
-    }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        idNotificationTimerService = 01;
-        startForeground(idNotificationTimerService, getNotifications("Start Notifications"));
         Toast.makeText(this, " Timer service starting", Toast.LENGTH_LONG).show();
         String timerWork = intent.getStringExtra("TimerWork");
         String timerRest = intent.getStringExtra("TimerRest");
@@ -82,21 +55,24 @@ public class TimerService extends Service {
         String action = intent.getAction();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.timer_din);
-        // проверка  и передача текста в нотификашку
-        if(countDownTimerWork != null){
-            currentTime = timerWork;
-        }
-        if(countDownTimeRest!=null){
-            currentTime = timerRest;
-        }
-        notificationManager.notify(idNotificationTimerService, getNotifications(currentTime ));
+
         if (ACTION_START_TIMER.equals(action)) {
             // cancel previous timers
             cancelTimers();
             // might need to add null checks here
+            assert timerWork != null;
             long workMillis = Integer.parseInt(timerWork) * 1000;
+            assert timerRest != null;
             long restMillis = Integer.parseInt(timerRest) * 1000;
             runWork(workMillis, restMillis);
+
+
+            // start notifications
+            TimerNotificationsManager.showTimerNotifications(this, currentTime);
+        startForeground(
+                Integer.parseInt(TimerNotificationsManager.getIdTimerServiceNotification())
+                ,TimerNotificationsManager.getNotification());
+        Log.d(LOG_TAG, "Start foreground: ");
             return START_STICKY;
         }
 
@@ -109,15 +85,14 @@ public class TimerService extends Service {
         throw new IllegalArgumentException("Unknown action was passed to the service: " + action);
     }
 
-    private Notification getNotifications(String content) {
-        return notificationManagerBuilder.setContentText(content).build();
-    }
+
 
 
     private void cancelByUser() {
         cancelTimers();
         mediaPlayer.stop();
         stopSelf();
+        stopForeground(true);
     }
 
     private void cancelTimers() {
@@ -132,6 +107,7 @@ public class TimerService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+
         Log.d(LOG_TAG, "onBind");
         return null;
     }
@@ -144,8 +120,10 @@ public class TimerService extends Service {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
-                textWork = "seconds of  Work" + (int) (millisUntilFinished / 1000);
-                Log.d(LOG_TAG, " on Tick" + textWork);
+                timeWork = "seconds of  Work" + (int) (millisUntilFinished / 1000);
+                currentTime = timeWork;
+                Log.d(LOG_TAG, " on Tick" + timeWork);
+                Log.d(LOG_TAG, " currentTime " + currentTime);
             }
 
             @SuppressLint("SetTextI18n")
@@ -166,7 +144,10 @@ public class TimerService extends Service {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeRest = "seconds of  rest" + (int) (millisUntilFinished / 1000);
+                currentTime =timeRest;
                 Log.d(LOG_TAG, " on TickRest" + timeRest);
+                Log.d(LOG_TAG, " currentTime " + currentTime);
+
             }
 
 
