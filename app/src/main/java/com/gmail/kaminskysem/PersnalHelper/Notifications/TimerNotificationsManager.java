@@ -17,7 +17,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerService;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
-import com.gmail.kaminskysem.PersnalHelper.Timer.TimerTImerFragment;
 
 public class TimerNotificationsManager {
 
@@ -25,7 +24,8 @@ public class TimerNotificationsManager {
     @SuppressLint("StaticFieldLeak")
     private static NotificationManagerCompat notificationManager;
     private static Notification notification;
-    private static String idTimerServiceNotification ="1";
+    private static int idTimerServiceNotification =1;
+
 
 
     @SuppressLint("ServiceCast")
@@ -49,25 +49,26 @@ public class TimerNotificationsManager {
         String timerServiceTitle = "Timer service";
 
         PendingIntent mainContent = PendingIntent.getActivity(context,
-                Integer.parseInt(idTimerServiceNotification),
+                idTimerServiceNotification,
                 new Intent(context, TimerActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
+
         Intent intent = new Intent(context, TimerService.class );
         intent.setAction(TimerService.ACTION_STOP_TIMER);
         PendingIntent closeService = PendingIntent.getService(context,
-                    Integer.parseInt(idTimerServiceNotification),
+                   idTimerServiceNotification,
                     intent,
                     PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-        notification = new NotificationCompat.Builder(context, idTimerServiceNotification)
+        notification = new NotificationCompat.Builder(context, String.valueOf(idTimerServiceNotification))
                 .setContentTitle(timerServiceTitle)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_clock1_foreground)
                 .setContentIntent(mainContent)
                 .addAction(0,"Stop Timer", closeService)
                 .build();
-        notificationsManagerCompat.notify(Integer.parseInt(idTimerServiceNotification), notification);
+        notificationsManagerCompat.notify(idTimerServiceNotification, notification);
 
         Log.d(LOG_TAG, "showTimerNotifications " + text);
 
@@ -79,6 +80,6 @@ public class TimerNotificationsManager {
 
 
     public static String getIdTimerServiceNotification() {
-        return idTimerServiceNotification;
+        return  String.valueOf(idTimerServiceNotification);
     }
 }
