@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".planer.PlanerActivity"
+            android:name=".planerTODOlist.PlanerActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTop">
 

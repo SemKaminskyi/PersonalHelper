@@ -81,7 +81,10 @@ public class TimerTImerFragment extends Fragment {
             serviceConnection = new ServiceConnection() {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
+                    
+                    //TODO   в примере идет каст -  у меня просит статические методы и т.д
                     timerService = TimerBinder.getService();
+
                     bound = true;
                     Log.d(LOG_TAG, "TimerFragment connected" +service);
                 }

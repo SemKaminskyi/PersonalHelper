@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.planer;
+package com.gmail.kaminskysem.PersnalHelper.planerTODOlist;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.kaminskysem.PersnalHelper.Data.InMemoryPlanerProvider;
 import com.gmail.kaminskysem.PersnalHelper.R;
-import com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model.PlanerDetails;
-import com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model.PlanerDetailsAdapter;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetailsAdapter;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public final class PlanerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_planer);
+        setContentView(R.layout.activity_planer_todo_list);
 
         adapter = new PlanerDetailsAdapter();
         rvPlanerTask = findViewById(R.id.rv_planer);

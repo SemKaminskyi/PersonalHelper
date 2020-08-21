@@ -6,11 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
-import com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model.PlanerDetails;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
 
 import java.util.ArrayList;
 import java.util.List;

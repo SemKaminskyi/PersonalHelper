@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/priroda_gory_nebo_ozero_oblaka_vertical"
-    tools:context=".planer.PlanerActivity">
+    tools:context=".planerTODOlist.PlanerActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_planer"

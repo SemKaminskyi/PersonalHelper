@@ -11,12 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
-import com.gmail.kaminskysem.PersnalHelper.planer.PlanerActivity;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static String LOG_TAG = MainActivity.class.getSimpleName();
     private Button btnTimer;
     private Button btnPlaner;
+
+//TODO add orientation to mode 2 apps in one screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-        Log.d(LOG_TAG, "OnCreate, "+this);
 
         btnPlaner = findViewById(R.id.btn_planer);
         btnPlaner.setOnClickListener(btnOnClickPlaner);
@@ -51,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         btnTimer =findViewById(R.id.btn_clockwork);
         btnTimer.setOnClickListener(btnOnClickTimer);
 
+        Log.d(LOG_TAG, "OnCreate, "+this);
+
+        FragmentMainScrollingImages fragmentMainScrollingImages = new FragmentMainScrollingImages();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_main_image_container,fragmentMainScrollingImages)
+                .commit();
 
     }
 

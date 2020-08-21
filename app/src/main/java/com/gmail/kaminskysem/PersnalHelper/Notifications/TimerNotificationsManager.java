@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -31,7 +32,6 @@ public class TimerNotificationsManager {
     @SuppressLint("ServiceCast")
     @TargetApi(Build.VERSION_CODES.O)
     public static void setupNotificationsChannels(Context context) {
-
         notificationManager = NotificationManagerCompat.from(context);
         String timerServiceNotificationId = "1";
         String timerNotifications = "Timer notifications";

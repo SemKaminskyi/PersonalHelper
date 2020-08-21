@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model;
+package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
 public class PlanerDetails {
     private final long taskID =-1L;

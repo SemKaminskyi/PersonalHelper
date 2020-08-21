@@ -1,6 +1,6 @@
 package com.gmail.kaminskysem.PersnalHelper.Data;
 
-import com.gmail.kaminskysem.PersnalHelper.planer.forRecyclerView.model.PlanerDetails;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
 
 import java.util.List;
 
