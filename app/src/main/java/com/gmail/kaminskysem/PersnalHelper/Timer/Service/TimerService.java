@@ -23,20 +23,27 @@ public class TimerService extends Service {
     public static final String ACTION_STOP_TIMER = "stop_timer";
 
     private static CountDownTimer countDownTimerWork;
-    private  static CountDownTimer countDownTimeRest;
+    private static CountDownTimer countDownTimeRest;
 
-    private static int timeWorkInt;
-    private static String timeWorkString;
+    private int timeWorkInt;
+    private String timeWorkString = " ";
 
-    private static int timeRestInt;
-    private static String timeRestString;
+    private int timeRestInt;
+    private String timeRestString = " ";
 
-    TimerBinder timerBinder= new TimerBinder();
-
+    //external
+    TimerBinder timerBinder = new TimerBinder();
+    //inner
+//    TimeBinder timeBinder = new TimeBinder();
+    public MyBinder binder = new MyBinder();
 
     public TimerService() {
     }
-
+    public class MyBinder extends Binder {
+        public TimerService getService() {
+            return TimerService.this;
+        }
+    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -45,8 +52,6 @@ public class TimerService extends Service {
 
         Log.d(LOG_TAG, "onCreateTimerService");
     }
-
-
 
 
     @Override
@@ -60,6 +65,8 @@ public class TimerService extends Service {
         String action = intent.getAction();
         Binder binder = new Binder();
 
+        Intent intent1 = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+        intent.setAction(timeRestString);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.timer_din);
 
@@ -75,10 +82,10 @@ public class TimerService extends Service {
 
             // start notifications
             TimerNotificationsManager.showTimerNotifications(this, timerWork);
-        startForeground(
-                Integer.parseInt(TimerNotificationsManager.getIdTimerServiceNotification())
-                ,TimerNotificationsManager.getNotification());
-        Log.d(LOG_TAG, "Start foreground: ");
+            startForeground(
+                    Integer.parseInt(TimerNotificationsManager.getIdTimerServiceNotification())
+                    , TimerNotificationsManager.getNotification());
+            Log.d(LOG_TAG, "Start foreground: ");
             return START_STICKY;
         }
 
@@ -97,7 +104,7 @@ public class TimerService extends Service {
     public IBinder onBind(Intent intent) {
 
         Log.d(LOG_TAG, "timerBinder onBind");
-        return timerBinder;
+        return binder;
     }
 
 
@@ -109,13 +116,19 @@ public class TimerService extends Service {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeWorkInt = (int) (millisUntilFinished / 1000);
-                timeWorkString ="seconds of  Work: " + timeWorkInt;
+                timeWorkString = "seconds of  Work: " + timeWorkInt;
 
                 Log.d(LOG_TAG, " on Tick work" + timeWorkInt);
 
                 Log.d(LOG_TAG, " on work String " + timeWorkString);
                 TimerNotificationsManager.showTimerNotifications(getBaseContext(), getTimeWorkString());
-                Log.d(LOG_TAG, " on Tick work String to notificztions " + timeWorkString);
+                Log.d(LOG_TAG, " on Tick work String to notifications " + timeWorkString);
+
+                Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+                intent.setAction(timeWorkString);
+
+                Log.d(LOG_TAG, " intent to Broadcast " +timeWorkString );
+
             }
 
             @SuppressLint("SetTextI18n")
@@ -135,13 +148,17 @@ public class TimerService extends Service {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
-                timeRestInt =(int) (millisUntilFinished / 1000);
-                timeRestString ="seconds of Rest: "+timeRestInt;
+                timeRestInt = (int) (millisUntilFinished / 1000);
+                timeRestString = "seconds of Rest: " + timeRestInt;
 
                 Log.d(LOG_TAG, " on TickRest" + timeRestInt);
-                Log.d(LOG_TAG, " on Tick rest String to notificztions " + timeRestString);
+                Log.d(LOG_TAG, " on Tick rest String to notifications " + timeRestString);
                 TimerNotificationsManager.showTimerNotifications(getBaseContext(), timeRestString);
 
+                Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+                intent.setAction(timeRestString);
+
+                Log.d(LOG_TAG, " intent to Broadcast " +timeRestString );
             }
 
 
@@ -200,14 +217,14 @@ public class TimerService extends Service {
     private MediaPlayer mediaPlayer;
 
 
-
-    public static String getTimeWorkString() {
+    public String getTimeWorkString() {
         return timeWorkString;
     }
 
-    public static String getTimeRestString() {
+    public String getTimeRestString() {
         return timeRestString;
     }
+
 
 
 }

@@ -19,7 +19,7 @@
         app:layout_goneMarginBottom="@dimen/main_btn_margin_start_end_OfParent" />
 
 
-<!--TODO I don't know what this errors but need fixed it-->
+<!--TODO I don't know what this errors(25,37) but need fixed it-->
 
     <EditText
         android:id="@+id/et_Timer_time_to_work"

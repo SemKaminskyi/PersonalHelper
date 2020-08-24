@@ -2,6 +2,7 @@ package com.gmail.kaminskysem.PersnalHelper.Timer;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import java.util.Objects;
 
 public class TimerTImerFragment extends Fragment {
     private final static String LOG_TAG = TimerTImerFragment.class.getSimpleName();
+    public static final String TIMER_WORK = "TimerWork";
+    public static final String TIMER_REST = "TimerRest";
 
     EditText etWork;
     EditText etRest;
@@ -40,13 +43,23 @@ public class TimerTImerFragment extends Fragment {
 
     private static ServiceConnection serviceConnection;
     private boolean bound = false;
+    //TODO change
     Class<TimerService> timerService;
+//TimerService timerService;
+
+//    BroadcastReceiver br;
+    TimerReceiver timerReceiver;
+    public static final String PARAM_TIME ="status";
+    public static final String BROADCAST_ACTION = " com.gmail.kaminskysem.PersnalHelper.Timer";
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView" + container);
+        timerReceiver = new TimerReceiver();
+
         return inflater.inflate(R.layout.fragment_timer, container, false);
     }
 
@@ -61,7 +74,32 @@ public class TimerTImerFragment extends Fragment {
         bntStart = getView().findViewById(R.id.btn_timer_start);
 
         bntStop = getView().findViewById(R.id.btn_timer_stop);
+//        br = new BroadcastReceiver() {
+//            @SuppressLint({"SetTextI18n", "ShowToast"})
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                    String timeFromBroadcastWork = intent.getAction();
+////                    String timeFromBroadcastRest = intent.getStringExtra(TIMER_REST);
+//                Toast.makeText(Objects.requireNonNull(getView()).getContext(),intent.getAction(), Toast.LENGTH_SHORT);
+//                Log.d(LOG_TAG, "onReceive: time, work: "+ timeFromBroadcastWork);
+//
+////                    if(timeFromBroadcastWork!=null){
+//                    textViewTimer.setText("time: "+ timeFromBroadcastWork);
+////                    }
+////                    if(timeFromBroadcastRest!=null){
+////                        textViewTimer.setText("time: "+ timeFromBroadcastRest);
+////                    }
+//            }
+//        };
 
+
+        // add filter to BroadcastReceiver
+//        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION);
+//        getView().getContext().registerReceiver(br,intentFilter);
+
+        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION);
+        Objects.requireNonNull(getView()).getContext().registerReceiver(timerReceiver,intentFilter);
+        Log.d(LOG_TAG, "register Receiver "+ timerReceiver);
 
         //Btn START onClIck
         bntStart.setOnClickListener(v -> {
@@ -69,10 +107,13 @@ public class TimerTImerFragment extends Fragment {
             stringRestTimer = etRest.getText().toString();
             Log.d(LOG_TAG, "TimerWorkFragment is " + stringWorkTimer);
             Log.d(LOG_TAG, "TimerRestFragment is " + stringRestTimer);
+
             Intent intentStart = new Intent(getView().getContext(), TimerService.class)
-                    .putExtra("TimerWork", stringWorkTimer)
-                    .putExtra("TimerRest", stringRestTimer)
+                    .putExtra(TIMER_WORK, stringWorkTimer)
+                    .putExtra(TIMER_REST, stringRestTimer)
                     .setAction(TimerService.ACTION_START_TIMER);
+
+            getView().getContext().startService(intentStart);
 
             mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
             mediaPlayer.start();
@@ -81,10 +122,12 @@ public class TimerTImerFragment extends Fragment {
             serviceConnection = new ServiceConnection() {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
-                    
-                    //TODO   в примере идет каст -  у меня просит статические методы и т.д
-                    timerService = TimerBinder.getService();
 
+                    //TODO   в примере идет каст -  у меня просит статические методы и т.д
+                    // у автора было
+                    // myService = ((MyService.MyBinder) binder).getService();
+//                    timerService =((TimerService.MyBinder)timerService.binder).getService();
+                    timerService = TimerBinder.getService();
                     bound = true;
                     Log.d(LOG_TAG, "TimerFragment connected" +service);
                 }
@@ -96,46 +139,44 @@ public class TimerTImerFragment extends Fragment {
                 }
             };
             getView().getContext().bindService(intentStart, serviceConnection, TimerService.BIND_AUTO_CREATE);
-            getView().getContext().startService(intentStart);
 
 
             //add text to textView
             if (TimerService.getCountDownTimerWork() != null) {
-                textViewTimer.setText(TimerService.getTimeWorkString());
+//                textViewTimer.setText(timerService.getTimeWorkString());
                 Log.d(LOG_TAG, "add in TV - work timer ");
 
             }
             if (TimerService.getCountDownTimeRest() != null) {
-                textViewTimer.setText(TimerService.getTimeRestString());
+//                textViewTimer.setText(timerService.getTimeRestString());
                 Log.d(LOG_TAG, "add in TV - rest timer ");
 
             }
 
             Log.d(LOG_TAG, "bntStart ON Clicked " + v);
 
-            Log.d(LOG_TAG, "text to fragment work " + TimerService.getTimeWorkString());
-            Log.d(LOG_TAG, "text to fragment rest " + TimerService.getTimeRestString());
+            Log.d(LOG_TAG, "text to fragment work " );
+            Log.d(LOG_TAG, "text to fragment rest " );
+
+            // create broadcastReceiver
 
 
         });
 
         //Btn STOP onClIck
-        bntStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // unbind service
-                if (!bound) return;
-                Objects.requireNonNull(getView()).getContext().unbindService(serviceConnection);
-                Log.d(LOG_TAG, "TimerFragment UNBIND from bnt STOP");
-                bound = false;
+        bntStop.setOnClickListener(v -> {
+            // unbind service
+            if (!bound) return;
+            Objects.requireNonNull(getView()).getContext().unbindService(serviceConnection);
+            Log.d(LOG_TAG, "TimerFragment UNBIND from bnt STOP");
+            bound = false;
 
-                Intent intentStop = new Intent(Objects.requireNonNull(getView()).getContext(), TimerService.class)
-                        .setAction(TimerService.ACTION_STOP_TIMER);
-                // STOP service
-                getView().getContext().startService(intentStop);
-                Log.d(LOG_TAG, "Service  is stopped from fragment ");
+            Intent intentStop = new Intent(Objects.requireNonNull(getView()).getContext(), TimerService.class)
+                    .setAction(TimerService.ACTION_STOP_TIMER);
+            // STOP service
+            getView().getContext().startService(intentStop);
+            Log.d(LOG_TAG, "Service  is stopped from fragment ");
 
-            }
         });
     }
 
@@ -151,10 +192,11 @@ public class TimerTImerFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        super.onDestroyView();
         mediaPlayer.stop();
         mediaPlayer.reset();
         mediaPlayer.release();
-        super.onDestroyView();
+        Objects.requireNonNull(getView()).getContext().unregisterReceiver(timerReceiver);
     }
 
     public static ServiceConnection getServiceConnection() {
