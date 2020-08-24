@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.gmail.kaminskysem.PersnalHelper.Notifications.TimerNotificationsManager;
 import com.gmail.kaminskysem.PersnalHelper.R;
+import com.gmail.kaminskysem.PersnalHelper.Timer.TimerReceiver;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerTImerFragment;
 
 public class TimerService extends Service {
@@ -56,7 +57,8 @@ public class TimerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, " Timer service starting", Toast.LENGTH_LONG).show();
+        //TODO return back show toast and upgrade it
+//        Toast.makeText(this, " Timer service starting", Toast.LENGTH_LONG).show();
         String timerWork = intent.getStringExtra("TimerWork");
         String timerRest = intent.getStringExtra("TimerRest");
         Log.d(LOG_TAG, "time  Work: " + timerWork);
@@ -124,16 +126,17 @@ public class TimerService extends Service {
                 TimerNotificationsManager.showTimerNotifications(getBaseContext(), getTimeWorkString());
                 Log.d(LOG_TAG, " on Tick work String to notifications " + timeWorkString);
 
-                Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-                intent.setAction(timeWorkString);
-
-                Log.d(LOG_TAG, " intent to Broadcast " +timeWorkString );
+                Intent intent = new Intent(TimerReceiver.SIMPLE_ACTION);
+                intent.putExtra(TimerTImerFragment.TIMER_WORK,timeWorkString);
+                sendBroadcast(intent);
+                Log.d(LOG_TAG, " intent to Broadcast : " +timeWorkString );
 
             }
 
             @SuppressLint("SetTextI18n")
             @Override
             public void onFinish() {
+
                 Log.d(LOG_TAG, " finishedWork on timer: " + this);
                 mediaPlayer.start();
                 runRest(workMillis, restMillis);
