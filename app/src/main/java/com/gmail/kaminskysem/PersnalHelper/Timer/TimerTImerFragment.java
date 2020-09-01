@@ -61,12 +61,12 @@ public class TimerTImerFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 String timeFromBroadcastWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
                 textViewTimer.setText(timeFromBroadcastWork);
-                Log.i(LOG_TAG, " broadcast caught: "+timeFromBroadcastWork);
+                Log.i(LOG_TAG, " broadcast caught: " + timeFromBroadcastWork);
             }
 
         };
 
-       // register receiver
+        // register receiver
         IntentFilter intentFilter = new IntentFilter(TimerTImerFragment.BROADCAST_ACTION);
         Objects.requireNonNull(getActivity()).registerReceiver(TimerReceiver, intentFilter);
         Log.d(LOG_TAG, "register Receiver " + TimerReceiver);
@@ -86,6 +86,7 @@ public class TimerTImerFragment extends Fragment {
 
         bntStop = getView().findViewById(R.id.btn_timer_stop);
 
+        mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
 
         //Btn START onClIck
         bntStart.setOnClickListener(v -> {
@@ -101,7 +102,6 @@ public class TimerTImerFragment extends Fragment {
 
             getView().getContext().startService(intentStart);
 
-            mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
             mediaPlayer.start();
 
             //connection to service

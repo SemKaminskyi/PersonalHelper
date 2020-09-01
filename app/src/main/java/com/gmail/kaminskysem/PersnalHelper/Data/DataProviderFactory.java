@@ -5,7 +5,7 @@ import android.content.Context;
 public class DataProviderFactory {
 
     private static UserTasksDataBaseHelper dbProvider;
-    private static final InMemoryPlanerProvider inMemoryProvider = InMemoryPlanerProvider.getInstance();
+    private static final InMemoryUserPlanerProvider inMemoryProvider = InMemoryUserPlanerProvider.getInstance();
 
     public static IUserPlanerProvider getDataProvider (Context context){
         if (dbProvider ==null){

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class PlanerDetails {
     @PrimaryKey ( autoGenerate = true)
     @ColumnInfo (name = "task_id")
-    private final long taskID =-1L;
+    private  long taskID;
 
 @ColumnInfo (name = "task")
     private String task;
@@ -38,7 +38,7 @@ public class PlanerDetails {
         return task;
     }
 
-    public void setTask(String task) {
+    public void setStringTask(String task) {
         this.task = task;
     }
 

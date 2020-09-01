@@ -5,29 +5,31 @@ import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.
 import java.util.ArrayList;
 import java.util.List;
 // old name this class UserPlanerProvider
-public class InMemoryPlanerProvider implements IUserPlanerProvider {
-    private List<PlanerDetails> planerList = null;
-    private final static InMemoryPlanerProvider instance = new InMemoryPlanerProvider();
+public class InMemoryUserPlanerProvider implements IUserPlanerProvider {
 
-    public InMemoryPlanerProvider() {
+    private final List<PlanerDetails> planerList;
+    private final static InMemoryUserPlanerProvider instance = new InMemoryUserPlanerProvider();
 
-    }
+ public InMemoryUserPlanerProvider (){
+     planerList = new ArrayList<>();
 
-    public static InMemoryPlanerProvider getInstance(){
+     planerList.add(new PlanerDetails(0,"new task1",false));
+     planerList.add(new PlanerDetails(1,"new task2",false));
+ }
+
+    public static InMemoryUserPlanerProvider getInstance(){
         return instance;
     }
 
-    public InMemoryPlanerProvider(List<PlanerDetails> planerList) {
-        this.planerList = planerList;
-    }
+
     @Override
     public PlanerDetails getTaskById(long id){
-        return planerList.get((int) id);
+        return  planerList.get((int) id);
     }
 
     @Override
     public List<PlanerDetails> getPlanerList(){
-        return new ArrayList<>(planerList);
+        return  new ArrayList<>(planerList);
     }
 
     @Override
@@ -46,14 +48,10 @@ public class InMemoryPlanerProvider implements IUserPlanerProvider {
     }
 
 
-
-
-
     //TODO find class to this method
 
     public List<PlanerDetails> getPlanerDetails(){
         List<PlanerDetails>planerList = new ArrayList<>();
-//        planerList.add(new PlanerDetails(-1,"new task",false));
 
         return planerList;
     }

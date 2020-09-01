@@ -4,12 +4,13 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import com.gmail.kaminskysem.PersnalHelper.Data.InMemoryPlanerProvider;
+import com.gmail.kaminskysem.PersnalHelper.Data.AppDatabase;
+import com.gmail.kaminskysem.PersnalHelper.Data.InMemoryUserPlanerProvider;
 
 public class DataProviderFactory {
 
     private static AppDatabase roomDB;
-    public static final InMemoryPlanerProvider inMemoryProvider = InMemoryPlanerProvider.getInstance();
+    public static final InMemoryUserPlanerProvider inMemoryProvider = InMemoryUserPlanerProvider.getInstance();
 
     public static UserPlanerDao getDataProvider (Context context){
         if (roomDB == null){
