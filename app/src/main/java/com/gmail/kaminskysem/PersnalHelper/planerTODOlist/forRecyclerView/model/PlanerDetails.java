@@ -1,9 +1,19 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity (tableName = "tasks")
 public class PlanerDetails {
+    @PrimaryKey ( autoGenerate = true)
+    @ColumnInfo (name = "task_id")
     private final long taskID =-1L;
 
+@ColumnInfo (name = "task")
     private String task;
+
+@ColumnInfo (name = "check_task")
     private Boolean checkTask =false;
 
     public PlanerDetails(long taskID, String task, boolean checkTask ) {

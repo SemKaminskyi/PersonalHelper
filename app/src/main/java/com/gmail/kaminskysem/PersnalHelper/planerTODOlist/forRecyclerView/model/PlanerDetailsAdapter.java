@@ -1,5 +1,6 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +32,12 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
 
         }
 
-
-
     @Override
     public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
         PlanerDetails task =tasks.get(position);
 
-//           String newTaskFromUser = task.toString();
-//            Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser.toString());
+           String newTaskFromUser = task.toString();
+            Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser.toString());
 
 
         holder.bind(task);

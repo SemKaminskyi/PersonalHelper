@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Timer.TimerActivity"
     tools:ignore="ExtraText"
-    android:background="@color/background_sky_blue">
+    android:background="@drawable/img_bamboo">
 
     <FrameLayout
         android:id="@+id/fragment_timer_container"

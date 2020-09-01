@@ -1,12 +1,13 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.gmail.kaminskysem.PersnalHelper.R;
-import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerBinder;
 import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerService;
 
 import java.util.Objects;
@@ -44,15 +44,11 @@ public class TimerTImerFragment extends Fragment {
 
     private static ServiceConnection serviceConnection;
     private boolean bound = false;
-    //TODO change
-    Class<TimerService> timerService;
-//TimerService timerService;
 
-    //    BroadcastReceiver br;
-    TimerReceiver timerReceiver;
-    public static final String PARAM_TIME = "status";
+    TimerService timerService;
+    BroadcastReceiver TimerReceiver;
+
     public static final String BROADCAST_ACTION = " com.gmail.kaminskysem.PersnalHelper.Timer";
-    private CountDownTimer timer;
 
 
     @Nullable
@@ -60,12 +56,20 @@ public class TimerTImerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView" + container);
         // create broadcastReceiver
-        timerReceiver = new TimerReceiver();
+        TimerReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String timeFromBroadcastWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
+                textViewTimer.setText(timeFromBroadcastWork);
+                Log.i(LOG_TAG, " broadcast caught: "+timeFromBroadcastWork);
+            }
 
-        //register receiver
-        IntentFilter intentFilter = new IntentFilter(TimerReceiver.SIMPLE_ACTION);
-        getActivity().registerReceiver(timerReceiver, intentFilter);
-        Log.d(LOG_TAG, "register Receiver " + timerReceiver);
+        };
+
+       // register receiver
+        IntentFilter intentFilter = new IntentFilter(TimerTImerFragment.BROADCAST_ACTION);
+        Objects.requireNonNull(getActivity()).registerReceiver(TimerReceiver, intentFilter);
+        Log.d(LOG_TAG, "register Receiver " + TimerReceiver);
 
         return inflater.inflate(R.layout.fragment_timer, container, false);
     }
@@ -81,34 +85,7 @@ public class TimerTImerFragment extends Fragment {
         bntStart = getView().findViewById(R.id.btn_timer_start);
 
         bntStop = getView().findViewById(R.id.btn_timer_stop);
-//        br = new BroadcastReceiver() {
-//            @SuppressLint({"SetTextI18n", "ShowToast"})
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                    String timeFromBroadcastWork = intent.getAction();
-////                    String timeFromBroadcastRest = intent.getStringExtra(TIMER_REST);
-//                Toast.makeText(Objects.requireNonNull(getView()).getContext(),intent.getAction(), Toast.LENGTH_SHORT);
-//                Log.d(LOG_TAG, "onReceive: time, work: "+ timeFromBroadcastWork);
-//
 
-////                    if(timeFromBroadcastRest!=null){
-////                        textViewTimer.setText("time: "+ timeFromBroadcastRest);
-////                    }
-//            }
-//        };
-
-
-        // add filter to BroadcastReceiver
-//        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION);
-//        getView().getContext().registerReceiver(br,intentFilter);
-
-
-
-
-//        if(TimerReceiver.timeFromBroadcastWork!=null){
-            textViewTimer.setText("time: "+ TimerReceiver.timeFromBroadcastWork);
-
-//        }
 
         //Btn START onClIck
         bntStart.setOnClickListener(v -> {
@@ -116,7 +93,6 @@ public class TimerTImerFragment extends Fragment {
             stringRestTimer = etRest.getText().toString();
             Log.d(LOG_TAG, "TimerWorkFragment is " + stringWorkTimer);
             Log.d(LOG_TAG, "TimerRestFragment is " + stringRestTimer);
-        cicleUpdateTV();
 
             Intent intentStart = new Intent(getView().getContext(), TimerService.class)
                     .putExtra(TIMER_WORK, stringWorkTimer)
@@ -133,11 +109,7 @@ public class TimerTImerFragment extends Fragment {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
 
-                    //TODO   в примере идет каст -  у меня просит статические методы и т.д
-                    // у автора было
-                    // myService = ((MyService.MyBinder) binder).getService();
-//                    timerService =((TimerService.MyBinder)timerService.binder).getService();
-                    timerService = TimerBinder.getService();
+                    timerService = ((TimerService.MyBinder) service).getService();
                     bound = true;
                     Log.d(LOG_TAG, "TimerFragment connected" + service);
                 }
@@ -151,24 +123,11 @@ public class TimerTImerFragment extends Fragment {
             getView().getContext().bindService(intentStart, serviceConnection, TimerService.BIND_AUTO_CREATE);
 
 
-            //add text to textView
-//            if (TimerService.getCountDownTimerWork() != null) {
-//                textViewTimer.setText(timerService.getTimeWorkString());
-//                Log.d(LOG_TAG, "add in TV - work timer ");
-
-//            }
-//            if (TimerService.getCountDownTimeRest() != null) {
-//                textViewTimer.setText(timerService.getTimeRestString());
-//                Log.d(LOG_TAG, "add in TV - rest timer ");
-//
-//            }
-
             Log.d(LOG_TAG, "bntStart ON Clicked " + v);
 
             Log.d(LOG_TAG, "text to fragment work ");
             Log.d(LOG_TAG, "text to fragment rest ");
 
-            getView().getContext().sendBroadcast(new Intent(TimerReceiver.SIMPLE_ACTION));
         });
 
         //Btn STOP onClIck
@@ -183,37 +142,16 @@ public class TimerTImerFragment extends Fragment {
                     .setAction(TimerService.ACTION_STOP_TIMER);
             // STOP service
             getView().getContext().startService(intentStop);
+
+
             Log.d(LOG_TAG, "Service  is stopped from fragment ");
-            timer.cancel();
 
         });
-    }
-
-    private void cicleUpdateTV() {
-        Long ada = Long.parseLong(stringWorkTimer)*1000;
-        timer = new CountDownTimer(ada, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                textViewTimer.setText("time: "+ TimerReceiver.timeFromBroadcastWork);
-                Log.i(LOG_TAG, "update TV "+textViewTimer.getText());
-
-            }
-
-            @Override
-            public void onFinish() {
-                cicleUpdateTV();
-            }
-
-        }.start();
     }
 
 
     @Override
     public void onResume() {
-//        if(bound==false){
-//
-//        }
-
         super.onResume();
     }
 
@@ -223,7 +161,7 @@ public class TimerTImerFragment extends Fragment {
         mediaPlayer.stop();
         mediaPlayer.reset();
         mediaPlayer.release();
-        Objects.requireNonNull(getView()).getContext().unregisterReceiver(timerReceiver);
+        Objects.requireNonNull(getView()).getContext().unregisterReceiver(TimerReceiver);
     }
 
     public static ServiceConnection getServiceConnection() {

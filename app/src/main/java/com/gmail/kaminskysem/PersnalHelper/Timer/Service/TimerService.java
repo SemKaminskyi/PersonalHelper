@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.gmail.kaminskysem.PersnalHelper.Notifications.TimerNotificationsManager;
 import com.gmail.kaminskysem.PersnalHelper.R;
-import com.gmail.kaminskysem.PersnalHelper.Timer.TimerReceiver;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerTImerFragment;
 
 public class TimerService extends Service {
@@ -32,11 +31,8 @@ public class TimerService extends Service {
     private int timeRestInt;
     private String timeRestString = " ";
 
-    //external
-    TimerBinder timerBinder = new TimerBinder();
-    //inner
-//    TimeBinder timeBinder = new TimeBinder();
     public MyBinder binder = new MyBinder();
+    private String timerStopped;
 
     public TimerService() {
     }
@@ -57,18 +53,13 @@ public class TimerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //TODO return back show toast and upgrade it
-//        Toast.makeText(this, " Timer service starting", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " Timer service starting", Toast.LENGTH_SHORT).show();
         String timerWork = intent.getStringExtra("TimerWork");
         String timerRest = intent.getStringExtra("TimerRest");
         Log.d(LOG_TAG, "time  Work: " + timerWork);
         Log.d(LOG_TAG, "time  rest: " + timerRest);
         Log.d(LOG_TAG, "time  action: " + intent.getAction());
         String action = intent.getAction();
-        Binder binder = new Binder();
-
-        Intent intent1 = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-        intent.setAction(timeRestString);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.timer_din);
 
@@ -93,6 +84,8 @@ public class TimerService extends Service {
 
         if (ACTION_STOP_TIMER.equals(action)) {
             cancelByUser();
+            Toast.makeText(this, " Timer service stopped", Toast.LENGTH_SHORT).show();
+
             return START_STICKY;
         }
 
@@ -120,13 +113,13 @@ public class TimerService extends Service {
                 timeWorkInt = (int) (millisUntilFinished / 1000);
                 timeWorkString = "seconds of  Work: " + timeWorkInt;
 
-                Log.d(LOG_TAG, " on Tick work" + timeWorkInt);
+//                Log.d(LOG_TAG, " on Tick work" + timeWorkInt);
 
-                Log.d(LOG_TAG, " on work String " + timeWorkString);
+//                Log.d(LOG_TAG, " on work String " + timeWorkString);
                 TimerNotificationsManager.showTimerNotifications(getBaseContext(), getTimeWorkString());
-                Log.d(LOG_TAG, " on Tick work String to notifications " + timeWorkString);
+//                Log.d(LOG_TAG, " on Tick work String to notifications " + timeWorkString);
 
-                Intent intent = new Intent(TimerReceiver.SIMPLE_ACTION);
+                Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
                 intent.putExtra(TimerTImerFragment.TIMER_WORK,timeWorkString);
                 sendBroadcast(intent);
                 Log.d(LOG_TAG, " intent to Broadcast : " +timeWorkString );
@@ -159,8 +152,8 @@ public class TimerService extends Service {
                 TimerNotificationsManager.showTimerNotifications(getBaseContext(), timeRestString);
 
                 Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-                intent.setAction(timeRestString);
-
+                intent.putExtra(TimerTImerFragment.TIMER_WORK,timeRestString);
+                sendBroadcast(intent);
                 Log.d(LOG_TAG, " intent to Broadcast " +timeRestString );
             }
 
@@ -187,7 +180,11 @@ public class TimerService extends Service {
         mediaPlayer.stop();
         mediaPlayer.reset();
         mediaPlayer.release();
-
+        // add to Timer text view diff text
+        Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+        timerStopped = "Timer Stopped";
+        intent.putExtra(TimerTImerFragment.TIMER_WORK, timerStopped);
+        sendBroadcast(intent);
         //TODO qewstions - I need use bouth method stop service ore only one?
         stopSelf();
         stopForeground(true);
@@ -209,13 +206,7 @@ public class TimerService extends Service {
         cancelTimers();
     }
 
-    public static CountDownTimer getCountDownTimerWork() {
-        return countDownTimerWork;
-    }
 
-    public static CountDownTimer getCountDownTimeRest() {
-        return countDownTimeRest;
-    }
 
     private MediaPlayer mediaPlayer;
 

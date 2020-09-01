@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
+
     <Button
         android:id="@+id/btn_timer_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
+        android:alpha="50"
         android:text="@string/start"
         android:textAllCaps="true"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_goneMarginBottom="@dimen/main_btn_margin_start_end_OfParent" />
 
 
-<!--TODO I don't know what this errors(25,37) but need fixed it-->
+    <!--TODO I don't know what this errors(25,37) but need fixed it-->
 
     <EditText
         android:id="@+id/et_Timer_time_to_work"
@@ -28,8 +31,11 @@
         android:layout_marginStart="@dimen/main_btn_margin_start_end_OfParent"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
         android:autofillHints=""
+        android:background="@color/white50alpha"
         android:hint="@string/timer_time_to_work"
         android:inputType="numberDecimal"
+        android:textColor="@color/White100"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btn_timer_start"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -39,20 +45,24 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
         android:autofillHints=""
+        android:background="@color/white50alpha"
         android:hint="@string/timer_time_to_rest"
         android:inputType="number"
+        android:textColor="@color/White100"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btn_timer_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.71"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work"
-        />
+        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work" />
 
     <TextView
         android:id="@+id/tv_Timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
+        android:background="@color/white50alpha"
         android:text="@string/time"
+        android:textColor="@color/White100"
         android:textSize="@dimen/text_size_all_important"
         app:layout_constraintBottom_toTopOf="@+id/et_Timer_time_to_work"
         app:layout_constraintEnd_toStartOf="@+id/et_Timer_time_to_rest"

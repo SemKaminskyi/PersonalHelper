@@ -8,6 +8,8 @@
     <color name="colorItemViewBackground">#70FFFFFF</color>
     <color name="colorItemViewTextBackground">#70FFFFFF</color>
 
-    <color name="colorBackgroundIconName">#60ffffff</color>
+    <color name="colorBackgroundIconNameGray">#60ffffff</color>
     <color name="background_sky_blue">#53ACF8</color>
+    <color name="white50alpha">#50FFFFFF</color>
+    <color name="White100">#FFFFFFFF</color>
 </resources>

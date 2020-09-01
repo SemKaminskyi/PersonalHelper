@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Button;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -37,7 +36,7 @@ public class TimerNotificationsManager {
         String timerNotifications = "Timer notifications";
         NotificationChannel notificationChannel = new NotificationChannel(timerServiceNotificationId
                 , timerNotifications
-                , NotificationManager.IMPORTANCE_DEFAULT);
+                , NotificationManager.IMPORTANCE_LOW);
         notificationManager.createNotificationChannel(notificationChannel);
 
         Log.d(LOG_TAG, "add NotificationsChannels" + notificationChannel.toString());

@@ -32,27 +32,26 @@ public final class PlanerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planer_todo_list);
 
+        tasksList = new InMemoryPlanerProvider().getPlanerDetails();
         adapter = new PlanerDetailsAdapter();
+        // нужный ли метод вызвал?
+        adapter.setPlaner(tasksList);
+
         rvPlanerTask = findViewById(R.id.rv_planer);
         rvPlanerTask.setAdapter(adapter);
         rvPlanerTask.setLayoutManager(new LinearLayoutManager(this));
 
-        // нужный ли метод вызвал?
-        tasksList = new InMemoryPlanerProvider().getPlanerDetails();
-        adapter.setPlaner(tasksList);
 
-// строки 46-66 нужно подчистить написана белиберда, но єта белиберда стала передавать текст в новую задачу
+                PlanerDetails newTask = new PlanerDetails(-1, "", false);
 
-        //TODO доделать сохранение на диск (dataBase) -  пока не работатет 12.07.2020 00:15
         btnAddTask = (Button) findViewById(R.id.btn_add_task);
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PlanerDetails newTask = new PlanerDetails(-1, "", false);
-//                tasksList.add(0, newTask);
+                tasksList.add(0, newTask);
+                Log.d(LOG_TAG, "onClickBTNAdd" + this);
 
                 adapter.setPlaner(tasksList);
-                Log.d(LOG_TAG, "onClickBTNAdd" + this);
 
 
             }
@@ -73,7 +72,6 @@ public final class PlanerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //  не знаю нужен ли этот код но хотел добавить открытие клавиатуры и редактирование едит текста.. пока не вышло
         //TODO  добавить автокликера для едит текст
 
 
