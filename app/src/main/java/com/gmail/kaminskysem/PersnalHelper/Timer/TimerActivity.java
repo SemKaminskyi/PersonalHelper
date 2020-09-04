@@ -1,14 +1,8 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gmail.kaminskysem.PersnalHelper.Main.FragmentMainScrollingImages;
 import com.gmail.kaminskysem.PersnalHelper.R;

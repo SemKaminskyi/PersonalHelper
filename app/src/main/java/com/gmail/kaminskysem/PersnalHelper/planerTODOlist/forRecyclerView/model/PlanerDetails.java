@@ -19,7 +19,11 @@ public class PlanerDetails {
     public void setTaskID(long taskID) {
         this.taskID = taskID;
     }
-
+    public PlanerDetails() {
+        this.taskID = -1L;
+        this.task = "";
+        this.checkTask =false;
+    }
     public PlanerDetails(long taskID, String task, boolean checkTask ) {
         this.task = task;
         this.checkTask =checkTask;

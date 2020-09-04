@@ -1,18 +1,15 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.kaminskysem.PersnalHelper.R;
-import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerActivity;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerDetailsItemListener;
 
 import java.util.ArrayList;
