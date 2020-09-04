@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.kaminskysem.PersnalHelper.R;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerActivity;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerDetailsItemListener;
 
 import java.util.ArrayList;
@@ -45,49 +46,25 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
 
     @Override
     public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
-        EditText editText = null;
-        PlanerDetails task =tasks.get(position);
+        PlanerDetails task = tasks.get(position);
+        task.setTaskID(position);
+
         holder.bind(task);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (planerDetailsItemListener!=null){
-                    planerDetailsItemListener.onTaskItemClick(position,task);
-
-                    if( textWatcher !=null){
-                        editText.removeTextChangedListener(textWatcher);
-                    }
-                    textWatcher = new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            // save to db
-
-                        }
-                    };
-
-                    editText.addTextChangedListener(textWatcher);
+                if (planerDetailsItemListener != null) {
+                    planerDetailsItemListener.onTaskItemClick(position, task);
                 }
+
+                String newTaskFromUser = task.toString();
+                Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser);
+
+
+                holder.bind(task);
+
             }
         });
-
-
-
-           String newTaskFromUser = task.toString();
-            Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " +newTaskFromUser );
-
-
-        holder.bind(task);
-
     }
 
     @Override

@@ -16,6 +16,10 @@ public class PlanerDetails {
 @ColumnInfo (name = "check_task")
     private Boolean checkTask =false;
 
+    public void setTaskID(long taskID) {
+        this.taskID = taskID;
+    }
+
     public PlanerDetails(long taskID, String task, boolean checkTask ) {
         this.task = task;
         this.checkTask =checkTask;

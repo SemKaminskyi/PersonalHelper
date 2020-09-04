@@ -1,10 +1,12 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -40,7 +42,7 @@ public final class PlanerActivity extends AppCompatActivity {
         tasksList = new InMemoryUserPlanerProvider().getPlanerDetails();
         adapter = new PlanerDetailsAdapter();
         // нужный ли метод вызвал?
-        adapter.setPlaner(tasksList);
+//        adapter.setPlaner(tasksList);
 
         rvPlanerTask = findViewById(R.id.rv_planer);
         rvPlanerTask.setAdapter(adapter);
@@ -48,12 +50,13 @@ public final class PlanerActivity extends AppCompatActivity {
         userPlanerProvider = UserPlanerProvider.getInstance();
 
 
-        newTask = new PlanerDetails(0, "", false);
-
         btnAddTask = (Button) findViewById(R.id.btn_add_task);
+
+        // click to btn add
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                 newTask = new PlanerDetails(-1, "", false);
                 tasksList.add(0, newTask);
                 Log.d(LOG_TAG, "onClickBTNAdd" + this);
                 userPlanerProvider.addNewTask(newTask);
@@ -77,20 +80,26 @@ public final class PlanerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
             etNewTask = findViewById(R.id.et_new_task);
-
+            if (tasksList!=null&&etNewTask!=null){
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etNewTask, InputMethodManager.SHOW_IMPLICIT);
+                etNewTask.requestFocus();
+            }
         //TODO  добавить автокликера для едит текст
 
             adapter.setItemClickListener(new PlanerDetailsItemListener() {
                 @Override
                 public void onTaskItemClick(int itemId, PlanerDetails planerDetails) {
-                    textTask = etNewTask.getText().toString();
                     if (textTask != null) {
-                        newTask.setStringTask(textTask.toString());
+                    textTask = etNewTask.getText().toString();
+                        newTask.setStringTask(textTask);
                         adapter.notifyDataSetChanged();
                     }
                     userPlanerProvider.updateTaskWithID(itemId, planerDetails);
+                    adapter.notifyDataSetChanged();
                 }
             });
+
 
 
 

@@ -3,6 +3,7 @@ package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -11,18 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gmail.kaminskysem.PersnalHelper.R;
 
 public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
-    private final EditText task;
+    private final EditText editText;
     private TextWatcher textWatcher;
 
 
     public PlanerDetailsViewHolder(@NonNull View itemView) {
         super(itemView);
-        task=itemView.findViewById(R.id.et_new_task);
+        editText =itemView.findViewById(R.id.et_new_task);
     }
-    void bind (PlanerDetails tasks){
-        task.setText(tasks.getTask());
+    void bind (PlanerDetails task){
         if(textWatcher !=null){
-            task.removeTextChangedListener(textWatcher);
+            editText.removeTextChangedListener(textWatcher);
         }
             textWatcher = new TextWatcher() {
             @Override
@@ -38,10 +38,14 @@ public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void afterTextChanged(Editable s) {
                 // save to db
+
+                task.setStringTask(s.toString());
+//                editText.clearFocus();
             }
         };
 
-        task.addTextChangedListener(textWatcher);
+        editText.addTextChangedListener(textWatcher);
+
 
     }
 }
