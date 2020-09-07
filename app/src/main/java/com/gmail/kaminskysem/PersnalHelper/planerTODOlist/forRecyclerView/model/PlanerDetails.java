@@ -4,30 +4,34 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity (tableName = "tasks")
+@Entity(tableName = "tasks")
 public class PlanerDetails {
-    @PrimaryKey ( autoGenerate = true)
-    @ColumnInfo (name = "task_id")
-    private  long taskID;
 
-@ColumnInfo (name = "task")
-    private String task;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "task_id")
+    private long taskID;
 
-@ColumnInfo (name = "check_task")
-    private Boolean checkTask =false;
+    @ColumnInfo(name = "task")
+    private String taskString;
+
+    @ColumnInfo(name = "check_task")
+    private Boolean checkTask = false;
 
     public void setTaskID(long taskID) {
         this.taskID = taskID;
     }
+
     public PlanerDetails() {
         this.taskID = -1L;
-        this.task = "";
-        this.checkTask =false;
+        this.taskString = "";
+        this.checkTask = false;
     }
-    public PlanerDetails(long taskID, String task, boolean checkTask ) {
-        this.task = task;
-        this.checkTask =checkTask;
+
+    public PlanerDetails(long taskID, String taskString, boolean checkTask) {
+        this.taskString = taskString;
+        this.checkTask = checkTask;
     }
+
     public Long getTaskID() {
         return taskID;
     }
@@ -42,12 +46,12 @@ public class PlanerDetails {
     }
 
 
-    public String getTask() {
-        return task;
+    public String getTaskString() {
+        return taskString;
     }
 
-    public void setStringTask(String task) {
-        this.task = task;
+    public void setTaskString(String taskString) {
+        this.taskString = taskString;
     }
 
 }

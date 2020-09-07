@@ -132,7 +132,7 @@ class UserTasksDataBaseHelper extends SQLiteOpenHelper implements IUserPlanerPro
     private ContentValues getContentValuesForTask(PlanerDetails task) {
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_TASK, task.getTask());
+        cv.put(KEY_TASK, task.getTaskString());
         cv.put(String.valueOf(KEY_CHECK_PERFORMANCE_TASK), task.getCheckTask());
         return cv;
     }

@@ -8,11 +8,13 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gmail.kaminskysem.PersnalHelper.Data.InMemoryUserPlanerProvider;
 import com.gmail.kaminskysem.PersnalHelper.R;
 
 public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
     private final EditText editText;
     private TextWatcher textWatcher;
+    private InMemoryUserPlanerProvider inMemoryUserPlanerProvider;
 
 
     public PlanerDetailsViewHolder(@NonNull View itemView) {
@@ -20,6 +22,7 @@ public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
         editText =itemView.findViewById(R.id.et_new_task);
     }
     void bind (PlanerDetails task){
+
         if(textWatcher !=null){
             editText.removeTextChangedListener(textWatcher);
         }
@@ -37,9 +40,11 @@ public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void afterTextChanged(Editable s) {
                 // save to db
-
-                task.setStringTask(s.toString());
+                task.setTaskString(s.toString());
+//                userPlanerProvider.updateTaskWithID(task.getTaskID(),task);
+//                task.setStringTask(s.toString());
 //                editText.clearFocus();
+
             }
         };
 

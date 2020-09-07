@@ -15,8 +15,6 @@
         android:layout_marginBottom="8dp"
         android:autofillHints=""
         android:inputType="text"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:hint="@string/planer_new_task"
         android:textSize="@dimen/planer_todo_text_size"
         android:textStyle="bold"

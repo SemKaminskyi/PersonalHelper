@@ -4,6 +4,7 @@ import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.
 
 import java.util.ArrayList;
 import java.util.List;
+
 // old name this class UserPlanerProvider
 public class InMemoryUserPlanerProvider implements IUserPlanerProvider {
 
@@ -42,13 +43,11 @@ public class InMemoryUserPlanerProvider implements IUserPlanerProvider {
     @Override
     public long addNewTask(PlanerDetails task){
         long taskId = planerList.size();
-        PlanerDetails newTask = new PlanerDetails(taskId, task.getTask(),false);
+        PlanerDetails newTask = new PlanerDetails(taskId, task.getTaskString(),false);
         planerList.add(newTask);
         return taskId;
     }
 
-
-    //TODO find class to this method
 
     public List<PlanerDetails> getPlanerDetails(){
         List<PlanerDetails>planerList = new ArrayList<>();

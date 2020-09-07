@@ -20,7 +20,6 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
     private final String LOG_TAG = PlanerDetailsAdapter.class.getSimpleName();
 
     private PlanerDetailsItemListener planerDetailsItemListener;
-    TextWatcher textWatcher;
 
     public void setPlaner(List<PlanerDetails> task){
         this.tasks.clear();
@@ -44,24 +43,24 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
     @Override
     public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
         PlanerDetails task = tasks.get(position);
-        task.setTaskID(position);
 
         holder.bind(task);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (planerDetailsItemListener != null) {
-                    planerDetailsItemListener.onTaskItemClick(position, task);
-                }
 
-                String newTaskFromUser = task.toString();
-                Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser);
-
-
-                holder.bind(task);
-
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (planerDetailsItemListener != null) {
+//                    planerDetailsItemListener.onTaskItemClick(position, task);
+//                }
+//
+//                String newTaskFromUser = task.toString();
+//                Log.d(LOG_TAG, " READ TEXT FROM EDIT TEXT IS: " + newTaskFromUser);
+//
+//
+//                holder.bind(task);
+//
+//            }
+//        });
     }
 
     @Override

@@ -43,15 +43,15 @@ public final class PlanerActivity extends AppCompatActivity {
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                InMemoryUserPlanerProvider.getInstance().addNewTask(new PlanerDetails());
                 tasksList.add(0, new PlanerDetails());
-                Log.d(LOG_TAG, "onClickBTNAdd" + this);
-                UserPlanerProvider.getInstance().addNewTask(new PlanerDetails());
                 adapter.setPlaner(tasksList);
+                Log.d(LOG_TAG, "onClickBTNAdd" + this);
             }
         });
 
         Log.d(LOG_TAG, "onCreate" + this);
+        Log.i(LOG_TAG, tasksList.toString());
     }
 
     @Override
@@ -73,7 +73,7 @@ public final class PlanerActivity extends AppCompatActivity {
             @Override
             public void onTaskItemClick(int itemId, PlanerDetails planerDetails) {
 
-                UserPlanerProvider.getInstance().updateTaskWithID(itemId, planerDetails);
+                InMemoryUserPlanerProvider.getInstance().updateTaskWithID(itemId, planerDetails);
                 adapter.notifyDataSetChanged();
             }
         });
