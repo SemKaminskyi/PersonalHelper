@@ -30,6 +30,7 @@ public class PlanerDetails {
     public PlanerDetails(long taskID, String taskString, boolean checkTask) {
         this.taskString = taskString;
         this.checkTask = checkTask;
+        this.taskID =taskID;
     }
 
     public Long getTaskID() {

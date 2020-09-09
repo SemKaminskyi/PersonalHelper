@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.Data;
+package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.Data;
 
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
 

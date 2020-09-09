@@ -6,25 +6,33 @@
         android:background="@color/colorItemViewTextBackground"
         >
 
+    <TextView
+        android:id="@+id/tv_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <EditText
         android:id="@+id/et_new_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"
         android:autofillHints=""
-        android:inputType="text"
         android:hint="@string/planer_new_task"
+        android:inputType="text"
         android:textSize="@dimen/planer_todo_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6"
-        />
+        app:layout_constraintVertical_bias="0.0" />
 
     <CheckBox
+        android:id="@+id/cb_checkbox_task"
         android:layout_width="@dimen/item_task_checkbox_size"
         android:layout_height="@dimen/item_task_checkbox_size"
         android:layout_marginEnd="4dp"

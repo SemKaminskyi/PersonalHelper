@@ -11,7 +11,7 @@ import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.
 import java.util.List;
 
     @Dao
-public interface UserPlanerDao {
+public interface IUserPlanerDao {
     @WorkerThread
     @Query("SELECT * FROM  tasks WHERE task_id = :id")
     PlanerDetails getTaskById (long id);

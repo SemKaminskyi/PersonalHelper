@@ -1,5 +1,5 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist;
 
-public interface PlanerActivityCallbacks {
+public interface IPlanerActivityCallbacks {
     void showPlanerDetails (long taskId);
 }
