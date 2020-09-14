@@ -1,5 +1,6 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.Data.InMemoryUserPlanerProvider;
 import com.gmail.kaminskysem.PersnalHelper.R;
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.Data.DataProviderFactory;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetailsAdapter;
 
@@ -21,21 +22,30 @@ public final class PlanerActivity extends AppCompatActivity {
     private static String LOG_TAG = PlanerActivity.class.getSimpleName();
     private List<PlanerDetails> tasksList;
     private PlanerDetailsAdapter adapter;
+    private IUserPlanerDao userPlanerDaoProvider;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planer_todo_list);
-
+        userPlanerDaoProvider = DataProviderFactory.getDataProvider(this);
         adapter = new PlanerDetailsAdapter();
 
         RecyclerView rvPlanerTask = findViewById(R.id.rv_planer);
         rvPlanerTask.setAdapter(adapter);
         rvPlanerTask.setLayoutManager(new LinearLayoutManager(this));
 
-        tasksList = new InMemoryUserPlanerProvider().getPlanerDetails();
-        adapter.setPlaner(tasksList);
+        new Thread(() -> {
+        tasksList = userPlanerDaoProvider.getTaskList();
+            Activity activity = getParent();
+
+                runOnUiThread(() -> {
+
+                    adapter.setPlaner(tasksList);
+                });
+
+        }).start();
 
         Button btnAddTask = (Button) findViewById(R.id.btn_add_task);
 
@@ -43,8 +53,16 @@ public final class PlanerActivity extends AppCompatActivity {
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tasksList.add(0, new PlanerDetails(5,"",false));
-                adapter.setPlaner(tasksList);
+                new Thread(() -> {
+                tasksList.add(0, new PlanerDetails(0, "", false));
+                    userPlanerDaoProvider.addNewTask(new PlanerDetails(0,"",false));
+
+                        runOnUiThread(() -> {
+
+                            adapter.setPlaner(tasksList);
+                        });
+
+                }).start();
                 Log.d(LOG_TAG, "onClickBTNAdd" + this);
                 Log.d(LOG_TAG, tasksList.toString());
             }
@@ -52,7 +70,6 @@ public final class PlanerActivity extends AppCompatActivity {
 
 
         Log.d(LOG_TAG, "onCreate" + this);
-        Log.i(LOG_TAG, tasksList.toString());
     }
 
     @Override
@@ -80,7 +97,6 @@ public final class PlanerActivity extends AppCompatActivity {
 
         Log.d(LOG_TAG, "onResume" + this);
     }
-
 
 
 }

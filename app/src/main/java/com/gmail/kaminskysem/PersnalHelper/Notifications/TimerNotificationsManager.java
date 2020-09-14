@@ -28,15 +28,19 @@ public class TimerNotificationsManager {
 
 
 
-    @SuppressLint("ServiceCast")
-    @TargetApi(Build.VERSION_CODES.O)
+
     public static void setupNotificationsChannels(Context context) {
         notificationManager = NotificationManagerCompat.from(context);
+
         String timerServiceNotificationId = "1";
         String timerNotifications = "Timer notifications";
-        NotificationChannel notificationChannel = new NotificationChannel(timerServiceNotificationId
-                , timerNotifications
-                , NotificationManager.IMPORTANCE_LOW);
+        NotificationChannel notificationChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(timerServiceNotificationId
+                    , timerNotifications
+                    , NotificationManager.IMPORTANCE_LOW);
+        }
+        assert notificationChannel != null;
         notificationManager.createNotificationChannel(notificationChannel);
 
         Log.d(LOG_TAG, "add NotificationsChannels" + notificationChannel.toString());

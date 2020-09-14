@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.Data;
+package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.Data;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

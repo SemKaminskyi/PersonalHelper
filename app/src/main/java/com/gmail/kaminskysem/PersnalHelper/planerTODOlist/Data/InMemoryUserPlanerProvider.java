@@ -1,12 +1,13 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.Data;
 
+import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.IUserPlanerDao;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // old name this class UserPlanerProvider
-public class InMemoryUserPlanerProvider {
+public class InMemoryUserPlanerProvider implements IUserPlanerDao {
 
     private final List<PlanerDetails> planerList=new ArrayList<>();;
     private final static InMemoryUserPlanerProvider instance = new InMemoryUserPlanerProvider();
@@ -14,12 +15,6 @@ public class InMemoryUserPlanerProvider {
    public InMemoryUserPlanerProvider() {
    }
 
-// public InMemoryUserPlanerProvider (){
-//     planerList = new ArrayList<>();
-//
-//
-// }
-//
     public static InMemoryUserPlanerProvider getInstance(){
         return instance;
     }
@@ -54,14 +49,25 @@ public class InMemoryUserPlanerProvider {
         return planerList;
     }
 
-    public void updateTaskWithID(long taskID, PlanerDetails task){
-        planerList.remove((int)taskID);
-        planerList.add ((int)taskID,task);
 
+
+    @Override
+    public PlanerDetails getTaskById(long id) {
+        return planerList.get(Math.toIntExact(id));
     }
 
+    @Override
+    public List<PlanerDetails> getTaskList() {
+        return planerList;
+    }
 
+    @Override
+    public void updateTaskWithId(PlanerDetails task) {
+        planerList.remove(Math.toIntExact(task.getTaskID()));
+        planerList.add (Math.toIntExact(task.getTaskID()), task);
+    }
 
+    @Override
     public long addNewTask(PlanerDetails task){
         long taskId = planerList.size();
         PlanerDetails newTask = new PlanerDetails(taskId, task.getTaskString(),false);
