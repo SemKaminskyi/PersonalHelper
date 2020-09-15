@@ -37,13 +37,12 @@ public final class PlanerActivity extends AppCompatActivity {
         rvPlanerTask.setLayoutManager(new LinearLayoutManager(this));
 
         new Thread(() -> {
-        tasksList = userPlanerDaoProvider.getTaskList();
-            Activity activity = getParent();
+            tasksList = userPlanerDaoProvider.getTaskList();
 
-                runOnUiThread(() -> {
+            runOnUiThread(() -> {
 
-                    adapter.setPlaner(tasksList);
-                });
+                adapter.setPlaner(tasksList);
+            });
 
         }).start();
 
@@ -54,13 +53,13 @@ public final class PlanerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new Thread(() -> {
-                tasksList.add(0, new PlanerDetails(0, "", false));
-                    userPlanerDaoProvider.addNewTask(new PlanerDetails(0,"",false));
+                    userPlanerDaoProvider.addNewTask(new PlanerDetails());
+                    tasksList = userPlanerDaoProvider.getTaskList();
+                    runOnUiThread(() -> {
+//                        rvPlanerTask.getRecycledViewPool().clear();
+                        adapter.setPlaner(tasksList);
 
-                        runOnUiThread(() -> {
-
-                            adapter.setPlaner(tasksList);
-                        });
+                    });
 
                 }).start();
                 Log.d(LOG_TAG, "onClickBTNAdd" + this);

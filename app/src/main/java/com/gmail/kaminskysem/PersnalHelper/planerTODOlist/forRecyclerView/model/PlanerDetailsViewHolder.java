@@ -73,11 +73,11 @@ private IUserPlanerDao userPlanerDaoProvider;
 
         };
 
+        tvIdTask.setText(planerDetails.getTaskID().toString());
         editTextTask.addTextChangedListener(textWatcher);
 
         editTextTask.setText(planerDetails.getTaskString());
         checkTask.setChecked(planerDetails.getCheckTask());
-        tvIdTask.setText(planerDetails.getTaskID().toString());
 
 
 

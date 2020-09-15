@@ -68,11 +68,13 @@ public class InMemoryUserPlanerProvider implements IUserPlanerDao {
     }
 
     @Override
-    public long addNewTask(PlanerDetails task){
-        long taskId = planerList.size();
-        PlanerDetails newTask = new PlanerDetails(taskId, task.getTaskString(),false);
-        planerList.add(newTask);
-        return taskId;
+    public void addNewTask(PlanerDetails planerDetails){
+        planerList.add(planerDetails);
+    }
+
+    @Override
+    public void delete(PlanerDetails task) {
+       planerList.remove(task);
     }
 
 

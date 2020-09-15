@@ -22,7 +22,6 @@ public class PlanerDetails {
     }
 
     public PlanerDetails() {
-        this.taskID = -1L;
         this.taskString = "";
         this.checkTask = false;
     }
