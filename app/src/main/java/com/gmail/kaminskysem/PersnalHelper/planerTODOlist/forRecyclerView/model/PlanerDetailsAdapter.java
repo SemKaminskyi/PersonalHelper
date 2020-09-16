@@ -1,24 +1,45 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gmail.kaminskysem.PersnalHelper.MyApp;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.IUserPlanerDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsViewHolder> {
-    private final List<PlanerDetails> planerDetailsList =new ArrayList<>();
-    private IUserPlanerDao userPlanerDaoProvider;
+
+    @Inject
+    public IUserPlanerDao userPlanerDaoProvider;
+    private  List<PlanerDetails> planerDetailsList;
+
+
+    public PlanerDetailsAdapter(Context context) {
+        MyApp.getApplicationsComponent(context).inject (this);
+        new Thread(()->{
+
+        planerDetailsList = userPlanerDaoProvider.getTaskList();
+        }).start();
+    }
 
     public void setPlaner(List<PlanerDetails> task){
+        new Thread(()->{
+
+                planerDetailsList = userPlanerDaoProvider.getTaskList();
+
+        }).start();
         this.planerDetailsList.clear();
         this.planerDetailsList.addAll(task);
         notifyDataSetChanged();
@@ -32,18 +53,42 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
 
     @Override
     public void onBindViewHolder(@NonNull PlanerDetailsViewHolder holder, int position) {
-        CheckBox checkBox = holder.itemView.findViewById(R.id.cb_checkbox_task);
         PlanerDetails planerDetails = planerDetailsList.get(position);
-        if (checkBox.isChecked()){
-            userPlanerDaoProvider.delete(planerDetails);
+        CheckBox checkBox = holder.itemView.findViewById(R.id.cb_checkbox_task);
 
-            notifyDataSetChanged();
-        }
-        holder.Bind(planerDetails);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBox.isChecked()) {
+                    Thread one = new Thread(()->{
+                    userPlanerDaoProvider.delete(planerDetails);
+
+                    });
+                    one.start();
+                    try {
+                        one.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    notifyDataSetChanged();
+                }
+                holder.Bind(planerDetails);
+            }
+        });
     }
-
     @Override
     public int getItemCount() {
+
+       Thread one = new  Thread(()->{
+            planerDetailsList = userPlanerDaoProvider.getTaskList();
+        });
+        one.start();
+        try {
+            one.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return planerDetailsList.size();
     }
 }
