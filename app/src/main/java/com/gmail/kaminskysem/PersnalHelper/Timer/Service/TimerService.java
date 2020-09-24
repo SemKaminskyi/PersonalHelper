@@ -26,21 +26,25 @@ public class TimerService extends Service {
     private static CountDownTimer countDownTimeRest;
 
     private int timeWorkInt;
-    private String timeWorkString = " ";
+    private String timeWorkString = "";
 
     private int timeRestInt;
-    private String timeRestString = " ";
+    private String timeRestString = "";
 
     public MyBinder binder = new MyBinder();
-    private String timerStopped;
+
+
+
 
     public TimerService() {
     }
+
     public class MyBinder extends Binder {
         public TimerService getService() {
             return TimerService.this;
         }
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -61,16 +65,21 @@ public class TimerService extends Service {
         Log.d(LOG_TAG, "time  action: " + intent.getAction());
         String action = intent.getAction();
 
+
+
         mediaPlayer = MediaPlayer.create(this, R.raw.timer_din);
+
+
 
         if (ACTION_START_TIMER.equals(action)) {
             // cancel previous timers
             cancelTimers();
             // might need to add null checks here
             assert timerWork != null;
-            long workMillis = Integer.parseInt(timerWork) * 1000;
+            int convertToMinutes = 60000;
+            long workMillis = Long.parseLong(timerWork) * convertToMinutes;
             assert timerRest != null;
-            long restMillis = Integer.parseInt(timerRest) * 1000;
+            long restMillis = Integer.parseInt(timerRest) * convertToMinutes;
             runWork(workMillis, restMillis);
 
             // start notifications
@@ -102,17 +111,28 @@ public class TimerService extends Service {
         return binder;
     }
 
+    private String formatTime ( Integer seconds){
+        @SuppressLint("DefaultLocale")
+        String b = String.format("%d:%02d:%02d", seconds / 3600,
+                (seconds % 3600) / 60, (seconds % 60));
+        return b;
+    }
 
     private void runWork(long workMillis, long restMillis) {
+
         // cancel any previous timers
         cancelTimers();
         countDownTimerWork = new CountDownTimer(workMillis, 1000) {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
-                timeWorkInt = (int) (millisUntilFinished / 1000);
-                timeWorkString = "seconds of  Work: " + timeWorkInt;
 
+
+                timeWorkInt = (int) (millisUntilFinished / 1000);
+
+
+
+                timeWorkString = "time of  Work: " + formatTime(timeWorkInt);
 //                Log.d(LOG_TAG, " on Tick work" + timeWorkInt);
 
 //                Log.d(LOG_TAG, " on work String " + timeWorkString);
@@ -144,8 +164,10 @@ public class TimerService extends Service {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
+
                 timeRestInt = (int) (millisUntilFinished / 1000);
-                timeRestString = "seconds of Rest: " + timeRestInt;
+
+                timeRestString = "time of Rest: " + formatTime(timeRestInt);
 
                 Log.d(LOG_TAG, " on TickRest" + timeRestInt);
                 Log.d(LOG_TAG, " on Tick rest String to notifications " + timeRestString);
@@ -182,7 +204,7 @@ public class TimerService extends Service {
         mediaPlayer.release();
         // add to Timer text view diff text
         Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-        timerStopped = "Timer Stopped";
+        String timerStopped = "Timer Stopped";
         intent.putExtra(TimerTImerFragment.TIMER_WORK, timerStopped);
         sendBroadcast(intent);
         //TODO qewstions - I need use bouth method stop service ore only one?
@@ -207,18 +229,12 @@ public class TimerService extends Service {
     }
 
 
-
     private MediaPlayer mediaPlayer;
 
 
     public String getTimeWorkString() {
         return timeWorkString;
     }
-
-    public String getTimeRestString() {
-        return timeRestString;
-    }
-
 
 
 }

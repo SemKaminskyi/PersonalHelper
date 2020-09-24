@@ -26,9 +26,13 @@ public class TimerNotificationsManager {
     private static Notification notification;
     private static int idTimerServiceNotification =1;
 
+    private static String getChanelIDTasks (Context context){
+        return context.getString(R.string.default_notification_channel_id);
+    }
 
 
 
+    @TargetApi(Build.VERSION_CODES.O)
     public static void setupNotificationsChannels(Context context) {
         notificationManager = NotificationManagerCompat.from(context);
 
@@ -36,7 +40,7 @@ public class TimerNotificationsManager {
         String timerNotifications = "Timer notifications";
         NotificationChannel notificationChannel = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notificationChannel = new NotificationChannel(timerServiceNotificationId
+            notificationChannel = new NotificationChannel(getChanelIDTasks(context)
                     , timerNotifications
                     , NotificationManager.IMPORTANCE_LOW);
         }
@@ -64,7 +68,7 @@ public class TimerNotificationsManager {
                     PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-        notification = new NotificationCompat.Builder(context, String.valueOf(idTimerServiceNotification))
+        notification = new NotificationCompat.Builder(context, getChanelIDTasks(context))
                 .setContentTitle(timerServiceTitle)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_clock1_foreground)

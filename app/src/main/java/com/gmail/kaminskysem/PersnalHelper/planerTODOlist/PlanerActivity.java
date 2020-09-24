@@ -1,7 +1,5 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist;
 
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.kaminskysem.PersnalHelper.MyApp;
 import com.gmail.kaminskysem.PersnalHelper.R;
-import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.Data.DataProviderFactory;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetails;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model.PlanerDetailsAdapter;
 
@@ -22,7 +19,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 public final class PlanerActivity extends AppCompatActivity {
-    public static final String ARG_TASK_ID = "arg_task_id";
     private static String LOG_TAG = PlanerActivity.class.getSimpleName();
     private List<PlanerDetails> tasksList;
     private PlanerDetailsAdapter adapter;
@@ -46,10 +42,7 @@ public final class PlanerActivity extends AppCompatActivity {
 
         new Thread(() -> {
             tasksList = userPlanerDaoProvider.getTaskList();
-            runOnUiThread(() -> {
-                adapter.setPlaner(tasksList);
-            });
-
+            runOnUiThread(() -> adapter.setPlaner(tasksList));
         }).start();
 
         Button btnAddTask = (Button) findViewById(R.id.btn_add_task);
@@ -61,14 +54,11 @@ public final class PlanerActivity extends AppCompatActivity {
                 new Thread(() -> {
                     userPlanerDaoProvider.addNewTask(new PlanerDetails());
                     tasksList = userPlanerDaoProvider.getTaskList();
-                    runOnUiThread(() -> {
-                        adapter.setPlaner(tasksList);
-
-                    });
+                    runOnUiThread(() -> adapter.setPlaner(tasksList));
 
                 }).start();
                 Log.d(LOG_TAG, "onClickBTNAdd" + this);
-                Log.d(LOG_TAG, tasksList.toString());
+                Log.i(LOG_TAG, tasksList.toString());
             }
         });
 

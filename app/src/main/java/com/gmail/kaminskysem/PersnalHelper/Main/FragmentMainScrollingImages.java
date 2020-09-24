@@ -11,7 +11,7 @@ import com.gmail.kaminskysem.PersnalHelper.R;
 
 
 public class FragmentMainScrollingImages extends Fragment {
-    private final static String LOG_TAG = FragmentMainScrollingImages.class.getSimpleName();
+
 
 
     @Override

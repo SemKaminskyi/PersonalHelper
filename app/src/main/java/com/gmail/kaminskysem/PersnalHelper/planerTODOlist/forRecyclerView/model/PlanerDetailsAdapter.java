@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import com.gmail.kaminskysem.PersnalHelper.MyApp;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.IUserPlanerDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,18 +26,17 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
 
     public PlanerDetailsAdapter(Context context) {
         MyApp.getApplicationsComponent(context).inject (this);
-        new Thread(()->{
-
-        planerDetailsList = userPlanerDaoProvider.getTaskList();
-        }).start();
+        new Thread(()-> planerDetailsList = userPlanerDaoProvider.getTaskList()).start();
     }
 
     public void setPlaner(List<PlanerDetails> task){
-        new Thread(()->{
-
-                planerDetailsList = userPlanerDaoProvider.getTaskList();
-
-        }).start();
+        Thread one =new Thread(()-> planerDetailsList = userPlanerDaoProvider.getTaskList());
+        one.start();
+        try {
+            one.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         this.planerDetailsList.clear();
         this.planerDetailsList.addAll(task);
         notifyDataSetChanged();
@@ -56,32 +53,24 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
         PlanerDetails planerDetails = planerDetailsList.get(position);
         CheckBox checkBox = holder.itemView.findViewById(R.id.cb_checkbox_task);
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBox.isChecked()) {
-                    Thread one = new Thread(()->{
-                    userPlanerDaoProvider.delete(planerDetails);
-
-                    });
-                    one.start();
-                    try {
-                        one.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    notifyDataSetChanged();
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (checkBox.isChecked()) {
+                Thread one = new Thread(()-> userPlanerDaoProvider.delete(planerDetails));
+                one.start();
+                try {
+                    one.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                holder.Bind(planerDetails);
+                notifyDataSetChanged();
             }
         });
+                holder.Bind(planerDetails);
     }
     @Override
     public int getItemCount() {
 
-       Thread one = new  Thread(()->{
-            planerDetailsList = userPlanerDaoProvider.getTaskList();
-        });
+       Thread one = new  Thread(()-> planerDetailsList = userPlanerDaoProvider.getTaskList());
         one.start();
         try {
             one.join();

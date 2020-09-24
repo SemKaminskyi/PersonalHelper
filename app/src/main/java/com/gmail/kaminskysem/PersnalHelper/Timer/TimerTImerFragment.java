@@ -92,6 +92,13 @@ public class TimerTImerFragment extends Fragment {
         bntStart.setOnClickListener(v -> {
             stringWorkTimer = etWork.getText().toString();
             stringRestTimer = etRest.getText().toString();
+//            try {
+//                if (stringWorkTimer==null && stringRestTimer==null){
+//                    new NonTwoTimeExceptions( "You must enter two time to work timer");
+//                }
+//            }catch (NonTwoTimeExceptions e){
+//
+//            }
             Log.d(LOG_TAG, "TimerWorkFragment is " + stringWorkTimer);
             Log.d(LOG_TAG, "TimerRestFragment is " + stringRestTimer);
 
@@ -164,7 +171,9 @@ public class TimerTImerFragment extends Fragment {
         Objects.requireNonNull(getView()).getContext().unregisterReceiver(TimerReceiver);
     }
 
-    public static ServiceConnection getServiceConnection() {
-        return serviceConnection;
-    }
+    //    public class NonTwoTimeExceptions extends RuntimeException {
+//        public NonTwoTimeExceptions(String errorMessage) {
+//            super(errorMessage);
+//        }
+//    }
 }

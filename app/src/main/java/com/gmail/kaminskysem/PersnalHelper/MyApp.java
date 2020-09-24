@@ -7,6 +7,7 @@ import com.gmail.kaminskysem.PersnalHelper.DI.AppModule;
 import com.gmail.kaminskysem.PersnalHelper.DI.ApplicationsComponent;
 import com.gmail.kaminskysem.PersnalHelper.DI.DBModule;
 import com.gmail.kaminskysem.PersnalHelper.DI.DaggerApplicationsComponent;
+import com.gmail.kaminskysem.PersnalHelper.Notifications.MyFirebaseMessagingService;
 
 public class MyApp extends Application {
 
@@ -20,6 +21,7 @@ public class MyApp extends Application {
                 .appModule(new AppModule(this))
                 .dBModule(new DBModule())
                         .build();
+        MyFirebaseMessagingService.registerForPushNotifications ();
 
     }
     public  static ApplicationsComponent getApplicationsComponent (Context context){

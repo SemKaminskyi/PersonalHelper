@@ -9,14 +9,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gmail.kaminskysem.PersnalHelper.BuildConfig;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerActivity;
 
 public class MainActivity extends AppCompatActivity {
+
     private static String LOG_TAG = MainActivity.class.getSimpleName();
-    private Button btnTimer;
-    private Button btnPlaner;
 
 //TODO add orientation to mode 2 apps in one screen
 
@@ -25,31 +25,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View.OnClickListener btnOnClickPlaner =new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Log.d(LOG_TAG,"btnOnClickPlaner"+v);
-                Intent mainActPlaner = new Intent(MainActivity.this, PlanerActivity.class);
-                startActivity(mainActPlaner);
-                Toast.makeText(MainActivity.this,"You click on Planer", Toast.LENGTH_SHORT).show();
+        View.OnClickListener btnOnClickPlaner = v -> {
+            if(BuildConfig.DEBUG){
+            Log.d(LOG_TAG,"btnOnClickPlaner"+v);
             }
+            Intent mainActPlaner = new Intent(MainActivity.this, PlanerActivity.class);
+            startActivity(mainActPlaner);
+            Toast.makeText(MainActivity.this,"You click on Planer", Toast.LENGTH_SHORT).show();
         };
-        View.OnClickListener btnOnClickTimer = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(LOG_TAG, "btnOnClickTimer"+v);
-                Intent mainActTimer = new Intent(MainActivity.this, TimerActivity.class);
-                startActivity(mainActTimer);
-                Toast.makeText(MainActivity.this,"You click on Timer", Toast.LENGTH_LONG).show();
+        View.OnClickListener btnOnClickTimer = v -> {
+            if(BuildConfig.DEBUG){
+
+            Log.d(LOG_TAG, "btnOnClickTimer"+v);
             }
+            Intent mainActTimer = new Intent(MainActivity.this, TimerActivity.class);
+            startActivity(mainActTimer);
+            Toast.makeText(MainActivity.this,"You click on Timer", Toast.LENGTH_LONG).show();
         };
 
 
-
-        btnPlaner = findViewById(R.id.btn_planer);
+        Button btnPlaner = findViewById(R.id.btn_planer);
         btnPlaner.setOnClickListener(btnOnClickPlaner);
 
-        btnTimer =findViewById(R.id.btn_clockwork);
+        Button btnTimer = findViewById(R.id.btn_clockwork);
         btnTimer.setOnClickListener(btnOnClickTimer);
 
         Log.d(LOG_TAG, "OnCreate, "+this);
@@ -64,12 +62,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if(BuildConfig.DEBUG){
+
         Log.d(LOG_TAG, "onStart, "+this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // add crash Test
+//        Button crashButton = new Button(this);
+//        crashButton.setText("Crash!");
+//        crashButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                throw new RuntimeException("Test Crash"); // Force a crash
+//            }
+//        });
+//
+//        addContentView(crashButton, new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
         Log.d(LOG_TAG, "onResume, "+this);
     }
 
