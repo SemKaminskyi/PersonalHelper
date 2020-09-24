@@ -68,6 +68,7 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
                 holder.Bind(planerDetails);
     }
     @Override
+
     public int getItemCount() {
 
        Thread one = new  Thread(()-> planerDetailsList = userPlanerDaoProvider.getTaskList());
