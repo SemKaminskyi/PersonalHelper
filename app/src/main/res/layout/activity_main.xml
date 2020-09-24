@@ -44,7 +44,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/btn_planer" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_planer"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/button4"
@@ -55,7 +56,8 @@
         android:background="#9060605E"
         android:text="@string/button"
         app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        android:visibility="invisible"/>
 
 
     <Button
@@ -69,7 +71,8 @@
         android:text="@string/button"
         app:layout_constraintEnd_toStartOf="@+id/button4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_clockwork" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_clockwork"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/button1"
@@ -80,7 +83,8 @@
         android:background="#9060605E"
         android:text="@string/button"
         app:layout_constraintStart_toEndOf="@+id/btn_clockwork"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
 
     <Button
@@ -95,7 +99,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/button1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
    <TextView
        android:layout_width="@dimen/main_btn_weight"
