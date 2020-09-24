@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "158322250865",
+    "firebase_url": "https://personalhelper-e2e0e.firebaseio.com",
+    "project_id": "personalhelper-e2e0e",
+    "storage_bucket": "personalhelper-e2e0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158322250865:android:0ccda4f82794a1c95a77d0",
+        "android_client_info": {
+          "package_name": "com.gmail.kaminskysem.PersnalHelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158322250865-rs2geof4pnblimnsnn00umcm4o00oil3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGYnWR3Xhp63-GFQrCxuK5TG4PiX0uwgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158322250865-rs2geof4pnblimnsnn00umcm4o00oil3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
