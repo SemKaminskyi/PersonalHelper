@@ -58,8 +58,8 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, " Timer service starting", Toast.LENGTH_SHORT).show();
-        String timerWork = intent.getStringExtra("TimerWork");
-        String timerRest = intent.getStringExtra("TimerRest");
+        String timerWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
+        String timerRest = intent.getStringExtra(TimerTImerFragment.TIMER_REST);
         Log.d(LOG_TAG, "time  Work: " + timerWork);
         Log.d(LOG_TAG, "time  rest: " + timerRest);
         Log.d(LOG_TAG, "time  action: " + intent.getAction());

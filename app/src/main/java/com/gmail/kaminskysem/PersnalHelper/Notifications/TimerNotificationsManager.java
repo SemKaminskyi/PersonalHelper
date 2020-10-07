@@ -17,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerService;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
+import com.gmail.kaminskysem.PersnalHelper.Timer.TimerTImerFragment;
 
 public class TimerNotificationsManager {
 
@@ -25,6 +26,7 @@ public class TimerNotificationsManager {
     private static NotificationManagerCompat notificationManager;
     private static Notification notification;
     private static int idTimerServiceNotification =1;
+    private static final String OTHER_TIME ="0";
 
     private static String getChanelIDTasks (Context context){
         return context.getString(R.string.default_notification_channel_id);
@@ -57,7 +59,7 @@ public class TimerNotificationsManager {
 
         PendingIntent mainContent = PendingIntent.getActivity(context,
                 idTimerServiceNotification,
-                new Intent(context, TimerActivity.class),
+                new Intent(context, TimerActivity.class).putExtra(TimerTImerFragment.TIMER_WORK,"0").putExtra(OTHER_TIME , "0"),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intent = new Intent(context, TimerService.class );
