@@ -1,5 +1,6 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer;
 
+
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +23,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bcgdv.asia.lib.ticktock.TickTockView;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerService;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class TimerTImerFragment extends Fragment {
@@ -49,6 +53,7 @@ public class TimerTImerFragment extends Fragment {
     BroadcastReceiver TimerReceiver;
 
     public static final String BROADCAST_ACTION = " com.gmail.kaminskysem.PersnalHelper.Timer";
+    private TickTockView mCountDown;
 
 
     @Nullable
@@ -80,6 +85,8 @@ public class TimerTImerFragment extends Fragment {
 
         etWork = Objects.requireNonNull(getView()).findViewById(R.id.et_Timer_time_to_work);
         etRest = Objects.requireNonNull(getView().findViewById(R.id.et_Timer_time_to_rest));
+
+
         textViewTimer = getView().findViewById(R.id.tv_Timer);
 
         bntStart = getView().findViewById(R.id.btn_timer_start);
@@ -87,6 +94,34 @@ public class TimerTImerFragment extends Fragment {
         bntStop = getView().findViewById(R.id.btn_timer_stop);
 
         mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
+
+        etWork.setText("0");
+        etRest.setText("0");
+        //add timer widget
+        mCountDown = new TickTockView(getContext());
+
+        mCountDown = (TickTockView) getView().findViewById(R.id.view_ticktock_countdown);
+
+        if (mCountDown != null) {
+            ((TickTockView) mCountDown).setOnTickListener(new TickTockView.OnTickListener() {
+                @Override
+                public String getText(long timeRemaining) {
+                    int seconds = (int) (timeRemaining / 1000) % 60;
+                    int minutes = (int) ((timeRemaining / (1000 * 60)) % 60);
+                    int hours = (int) ((timeRemaining / (1000 * 60 * 60)) % 24);
+                    int days = (int) (timeRemaining / (1000 * 60 * 60 * 24));
+                    boolean hasDays = days > 0;
+                    return String.format("%1$02d%4$s %2$02d%5$s %3$02d%6$s",
+                            hasDays ? days : hours,
+                            hasDays ? hours : minutes,
+                            hasDays ? minutes : seconds,
+                            hasDays ? "d" : "h",
+                            hasDays ? "h" : "m",
+                            hasDays ? "m" : "s");
+                }
+            });
+        }
+
 
         //Btn START onClIck
         bntStart.setOnClickListener(v -> {
@@ -135,27 +170,43 @@ public class TimerTImerFragment extends Fragment {
             Log.d(LOG_TAG, "text to fragment work ");
             Log.d(LOG_TAG, "text to fragment rest ");
 
+            //add calendar for widget
+            Calendar end = Calendar.getInstance();
+            int iEnd = Integer.parseInt(etWork.getText().toString());
+            end.add(Calendar.MINUTE, 4);
+
+            Calendar start = Calendar.getInstance();
+            start.add(Calendar.MINUTE, - );
+            if (mCountDown != null) {
+                mCountDown.start(start, end);
+            }
+
         });
 
         //Btn STOP onClIck
         bntStop.setOnClickListener(v -> {
             // unbind service
-            if (!bound) return;
-            Objects.requireNonNull(getView()).getContext().unbindService(serviceConnection);
-            Log.d(LOG_TAG, "TimerFragment UNBIND from bnt STOP");
-            bound = false;
+//            if (!bound) return;
+//            Objects.requireNonNull(getView()).getContext().unbindService(serviceConnection);
+//            Log.d(LOG_TAG, "TimerFragment UNBIND from bnt STOP");
+//            bound = false;
 
             Intent intentStop = new Intent(Objects.requireNonNull(getView()).getContext(), TimerService.class)
                     .setAction(TimerService.ACTION_STOP_TIMER);
             // STOP service
             getView().getContext().startService(intentStop);
 
-
             Log.d(LOG_TAG, "Service  is stopped from fragment ");
 
+            mCountDown.stop();
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
 
     @Override
     public void onResume() {
@@ -176,4 +227,10 @@ public class TimerTImerFragment extends Fragment {
 //            super(errorMessage);
 //        }
 //    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 }

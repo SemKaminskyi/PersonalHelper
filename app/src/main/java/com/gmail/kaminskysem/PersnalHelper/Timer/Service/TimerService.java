@@ -25,6 +25,8 @@ public class TimerService extends Service {
     private static CountDownTimer countDownTimerWork;
     private static CountDownTimer countDownTimeRest;
 
+
+
     private int timeWorkInt;
     private String timeWorkString = "";
 
@@ -50,6 +52,7 @@ public class TimerService extends Service {
         super.onCreate();
         //add notifications channels - maybe need move to TimerFragment or TimerActivity
         TimerNotificationsManager.setupNotificationsChannels(this);
+
 
         Log.d(LOG_TAG, "onCreateTimerService");
     }
@@ -227,7 +230,17 @@ public class TimerService extends Service {
         // important - not call cancelByUser here - it will stop service and android will not restart it
         cancelTimers();
     }
+    public int getTimeWorkInt() {
+        return timeWorkInt;
+    }
 
+    public int getTimeRestInt() {
+        return timeRestInt;
+    }
+
+    public String getTimeRestString() {
+        return timeRestString;
+    }
 
     private MediaPlayer mediaPlayer;
 

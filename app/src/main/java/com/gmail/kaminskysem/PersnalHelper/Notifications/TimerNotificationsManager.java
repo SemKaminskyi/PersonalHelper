@@ -59,7 +59,7 @@ public class TimerNotificationsManager {
 
         PendingIntent mainContent = PendingIntent.getActivity(context,
                 idTimerServiceNotification,
-                new Intent(context, TimerActivity.class).putExtra(TimerTImerFragment.TIMER_WORK,"0").putExtra(OTHER_TIME , "0"),
+                new Intent(context, TimerActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intent = new Intent(context, TimerService.class );

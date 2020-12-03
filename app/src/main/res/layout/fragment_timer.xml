@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,20 +10,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
-        android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
+        android:layout_marginBottom="16dp"
         android:alpha="50"
         android:text="@string/start"
         android:textAllCaps="true"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_goneMarginBottom="@dimen/main_btn_margin_start_end_OfParent" />
 
 
-    <!--TODO I don't know what this errors(25,37) but need fixed it-->
+    <com.bcgdv.asia.lib.ticktock.TickTockView
+        android:id="@+id/view_ticktock_countdown"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_timer_stop"
+        app:layout_constraintEnd_toEndOf="@+id/tv_Timer"
+        app:layout_constraintStart_toStartOf="@+id/tv_Timer"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Timer"
+        app:tickAutoFitText="true"
+        app:tickDotRadius="6dp"
+        app:tickEmptyRingColor="@android:color/white"
+        app:tickFillRingColor="@color/colorPrimary"
+        app:tickMiddleColor="#333333"
+        app:tickMoveCounterClockwise="true"
+        app:tickRingThickness="3dp"
+        app:tickTextColor="#CCCCCC" />
 
     <EditText
         android:id="@+id/et_Timer_time_to_work"
@@ -43,6 +60,7 @@
         android:id="@+id/et_Timer_time_to_rest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
         android:autofillHints=""
         android:background="@color/white50alpha"
@@ -51,15 +69,13 @@
         android:textColor="@color/White100"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btn_timer_start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.71"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tv_Timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
+        android:layout_marginBottom="52dp"
         android:background="@color/white50alpha"
         android:text="@string/time"
         android:textColor="@color/White100"
@@ -76,7 +92,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/btn_timer_start"
         app:layout_constraintEnd_toStartOf="@+id/et_Timer_time_to_rest"
         app:layout_constraintHorizontal_bias="0.242"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work"
-        app:layout_constraintTop_toBottomOf="@+id/et_Timer_time_to_work"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work" />
 </androidx.constraintlayout.widget.ConstraintLayout>

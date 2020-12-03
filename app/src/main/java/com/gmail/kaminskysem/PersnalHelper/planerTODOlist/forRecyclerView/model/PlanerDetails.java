@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
+ package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
