@@ -176,7 +176,7 @@ public class TimerTImerFragment extends Fragment {
             end.add(Calendar.MINUTE, 4);
 
             Calendar start = Calendar.getInstance();
-            start.add(Calendar.MINUTE, - );
+            start.add(Calendar.MINUTE, -1);
             if (mCountDown != null) {
                 mCountDown.start(start, end);
             }
