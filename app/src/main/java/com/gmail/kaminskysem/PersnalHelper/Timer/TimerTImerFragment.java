@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +33,10 @@ public class TimerTImerFragment extends Fragment {
     private final static String LOG_TAG = TimerTImerFragment.class.getSimpleName();
     public static final String TIMER_WORK = "TimerWork";
     public static final String TIMER_REST = "TimerRest";
+    public static final String TIME_FOR_CIRCLE_WORK = "TimerWork";
+    public static final String TIME_FOR_CIRCLE_REST = "TimerRest";
+
+
 
     EditText etWork;
     EditText etRest;
@@ -54,6 +57,14 @@ public class TimerTImerFragment extends Fragment {
 
     public static final String BROADCAST_ACTION = " com.gmail.kaminskysem.PersnalHelper.Timer";
     private TickTockView mCountDown;
+    private String timeFromBroadcastWork;
+
+    private int workFromBroadcastInt =-1;
+    private String workFromBroadcastStr;
+    private int restFromBroadcastInt =-1;
+    private String restFromBroadcastStr;
+    int iEnd=-1;
+    private IntentFilter intentFilter;
 
 
     @Nullable
@@ -64,17 +75,31 @@ public class TimerTImerFragment extends Fragment {
         TimerReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String timeFromBroadcastWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
+                timeFromBroadcastWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
                 textViewTimer.setText(timeFromBroadcastWork);
+
+                workFromBroadcastStr = intent.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK);
+                if(workFromBroadcastStr!=null){
+                workFromBroadcastInt = Integer.parseInt(workFromBroadcastStr);
+                }
+
+                restFromBroadcastStr = intent.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST);
+                if (restFromBroadcastStr != null) {
+                restFromBroadcastInt = Integer.parseInt(restFromBroadcastStr);
+                }
+
+
                 Log.i(LOG_TAG, " broadcast caught: " + timeFromBroadcastWork);
             }
 
         };
 
         // register receiver
-        IntentFilter intentFilter = new IntentFilter(TimerTImerFragment.BROADCAST_ACTION);
+        intentFilter = new IntentFilter(TimerTImerFragment.BROADCAST_ACTION);
         Objects.requireNonNull(getActivity()).registerReceiver(TimerReceiver, intentFilter);
         Log.d(LOG_TAG, "register Receiver " + TimerReceiver);
+        Log.d(LOG_TAG, "Wregister Receiver " + workFromBroadcastStr);
+        Log.d(LOG_TAG, "Rregister Receiver " + restFromBroadcastStr);
 
         return inflater.inflate(R.layout.fragment_timer, container, false);
     }
@@ -97,30 +122,10 @@ public class TimerTImerFragment extends Fragment {
 
         etWork.setText("0");
         etRest.setText("0");
+
         //add timer widget
-        mCountDown = new TickTockView(getContext());
-
+        mCountDown = new TickTockView(Objects.requireNonNull(getContext()));
         mCountDown = (TickTockView) getView().findViewById(R.id.view_ticktock_countdown);
-
-        if (mCountDown != null) {
-            ((TickTockView) mCountDown).setOnTickListener(new TickTockView.OnTickListener() {
-                @Override
-                public String getText(long timeRemaining) {
-                    int seconds = (int) (timeRemaining / 1000) % 60;
-                    int minutes = (int) ((timeRemaining / (1000 * 60)) % 60);
-                    int hours = (int) ((timeRemaining / (1000 * 60 * 60)) % 24);
-                    int days = (int) (timeRemaining / (1000 * 60 * 60 * 24));
-                    boolean hasDays = days > 0;
-                    return String.format("%1$02d%4$s %2$02d%5$s %3$02d%6$s",
-                            hasDays ? days : hours,
-                            hasDays ? hours : minutes,
-                            hasDays ? minutes : seconds,
-                            hasDays ? "d" : "h",
-                            hasDays ? "h" : "m",
-                            hasDays ? "m" : "s");
-                }
-            });
-        }
 
 
         //Btn START onClIck
@@ -170,16 +175,44 @@ public class TimerTImerFragment extends Fragment {
             Log.d(LOG_TAG, "text to fragment work ");
             Log.d(LOG_TAG, "text to fragment rest ");
 
+
+
             //add calendar for widget
             Calendar end = Calendar.getInstance();
-            int iEnd = Integer.parseInt(etWork.getText().toString());
-            end.add(Calendar.MINUTE, 4);
+
+            if(workFromBroadcastInt>0){
+                restFromBroadcastInt =-1;
+                iEnd = workFromBroadcastInt;
+                if (mCountDown!=null){
+                mCountDown.stop();
+                addTimerWidget();
+                }
+            }else {
+                workFromBroadcastInt=-1;
+                iEnd= restFromBroadcastInt;
+                if (mCountDown!=null){
+                    mCountDown.stop();
+                    addTimerWidget();
+                }
+            }
+
+            end.add(Calendar.MINUTE, iEnd);
+
 
             Calendar start = Calendar.getInstance();
-            start.add(Calendar.MINUTE, -1);
-            if (mCountDown != null) {
+            start.add(Calendar.MINUTE, 0);
+            if (mCountDown != null && timeFromBroadcastWork!=null) {
                 mCountDown.start(start, end);
             }
+//            Calendar c2= Calendar.getInstance();
+//            c2.add(Calendar.MINUTE, Integer.parseInt(stringWorkTimer));
+//            c2.set(Calendar.SECOND, 0);
+//            c2.set(Calendar.MILLISECOND, 0);
+//            if (mCountDown != null) {
+//                mCountDown.start(c2);
+//            }
+
+
 
         });
 
@@ -200,6 +233,30 @@ public class TimerTImerFragment extends Fragment {
 
             mCountDown.stop();
         });
+    }
+
+    private void addTimerWidget() {
+
+
+        if (mCountDown != null) {
+            ((TickTockView) mCountDown).setOnTickListener(new TickTockView.OnTickListener() {
+                @Override
+                public String getText(long timeRemaining) {
+                    int seconds = (int) (timeRemaining / 1000) % 60;
+                    int minutes = (int) ((timeRemaining / (1000 * 60)) % 60);
+                    int hours = (int) ((timeRemaining / (1000 * 60 * 60)) % 24);
+                    int days = (int) (timeRemaining / (1000 * 60 * 60 * 24));
+                    boolean hasDays = days > 0;
+                    return String.format("%1$02d%4$s %2$02d%5$s %3$02d%6$s",
+                            hasDays ? days : hours,
+                            hasDays ? hours : minutes,
+                            hasDays ? minutes : seconds,
+                            hasDays ? "d" : "h",
+                            hasDays ? "h" : "m",
+                            hasDays ? "m" : "s");
+                }
+            });
+        }
     }
 
     @Override

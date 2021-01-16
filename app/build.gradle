@@ -5,6 +5,10 @@ apply plugin: 'com.google.firebase.crashlytics'
 android {
     signingConfigs {
         app {
+        storeFile file('D:\\0job\\programming\\PHkey.jks')
+            storePassword 'Petr.03.06.92.Kam'
+            keyAlias 'Petr.03.06.92.Kam'
+            keyPassword 'Petr.03.06.92.Kam'
         }
     }
     compileSdkVersion 30
@@ -41,6 +45,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "boolean", "USE_LOG", "false"
+            signingConfig signingConfigs.app
         }
         debug {
             buildConfigField "boolean", "USE_LOG", "true"

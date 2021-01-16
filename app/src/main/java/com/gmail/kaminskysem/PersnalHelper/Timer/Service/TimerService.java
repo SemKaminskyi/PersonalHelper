@@ -34,8 +34,8 @@ public class TimerService extends Service {
     private String timeRestString = "";
 
     public MyBinder binder = new MyBinder();
-
-
+    private String timerWork;
+    private String timerRest;
 
 
     public TimerService() {
@@ -61,8 +61,10 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, " Timer service starting", Toast.LENGTH_SHORT).show();
-        String timerWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
-        String timerRest = intent.getStringExtra(TimerTImerFragment.TIMER_REST);
+
+        timerWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
+        timerRest = intent.getStringExtra(TimerTImerFragment.TIMER_REST);
+
         Log.d(LOG_TAG, "time  Work: " + timerWork);
         Log.d(LOG_TAG, "time  rest: " + timerRest);
         Log.d(LOG_TAG, "time  action: " + intent.getAction());
@@ -122,6 +124,13 @@ public class TimerService extends Service {
     }
 
     private void runWork(long workMillis, long restMillis) {
+        //add broadcast to draw circle
+            Intent workInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+            workInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK,timerWork);
+            workInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            sendBroadcast(workInt);
+
+        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast " +workInt );
 
         // cancel any previous timers
         cancelTimers();
@@ -163,7 +172,15 @@ public class TimerService extends Service {
     }
 
     private void runRest(long workMillis, long restMillis) {
+        //add broadcast to draw circle
+        Intent restInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+        restInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST,timerRest);
+        restInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        sendBroadcast(restInt);
+        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast " +restInt );
+
         countDownTimeRest = new CountDownTimer(restMillis, 1000) {
+
             @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
@@ -210,7 +227,7 @@ public class TimerService extends Service {
         String timerStopped = "Timer Stopped";
         intent.putExtra(TimerTImerFragment.TIMER_WORK, timerStopped);
         sendBroadcast(intent);
-        //TODO qewstions - I need use bouth method stop service ore only one?
+
         stopSelf();
         stopForeground(true);
     }
