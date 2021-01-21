@@ -69,7 +69,7 @@ public class TimerService extends Service {
         Log.d(LOG_TAG, "time  rest: " + timerRest);
         Log.d(LOG_TAG, "time  action: " + intent.getAction());
         String action = intent.getAction();
-
+ 
 
 
         mediaPlayer = MediaPlayer.create(this, R.raw.timer_din);
@@ -130,7 +130,7 @@ public class TimerService extends Service {
             workInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             sendBroadcast(workInt);
 
-        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast " +workInt );
+        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_WORK to Broadcast " +workInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK) );
 
         // cancel any previous timers
         cancelTimers();
@@ -166,6 +166,12 @@ public class TimerService extends Service {
                 mediaPlayer.start();
                 runRest(workMillis, restMillis);
 
+//                Intent workInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+//                workInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK,"-1");
+//                workInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                sendBroadcast(workInt);
+//                Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast -1+ " +workInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK)  );
+
 
             }
         }.start();
@@ -177,7 +183,7 @@ public class TimerService extends Service {
         restInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST,timerRest);
         restInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         sendBroadcast(restInt);
-        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast " +restInt );
+        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast " +restInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST)  );
 
         countDownTimeRest = new CountDownTimer(restMillis, 1000) {
 
@@ -206,6 +212,12 @@ public class TimerService extends Service {
                 Log.d(LOG_TAG, " finished Rest on timer: " + this);
                 mediaPlayer.start();
                 runWork(workMillis, restMillis);
+
+//                Intent restInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+//                restInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST,"-1");
+//                restInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                sendBroadcast(restInt);
+//                Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast -1+ " +restInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST)  );
             }
 
         }.start();

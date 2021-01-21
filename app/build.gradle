@@ -53,7 +53,7 @@ android {
     }
     task getDependencies(type: Copy) {
         //referring to the 'compile' configuration
-        from configurations.compile, configurations.testCompile
+//        from configurations.compile, configurations.testCompile
         into 'D:/0job/programming/AndroidStudioProject/.gradle'
         build.dependsOn
     }

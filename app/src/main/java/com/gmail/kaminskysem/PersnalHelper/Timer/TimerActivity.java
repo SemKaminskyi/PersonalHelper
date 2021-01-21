@@ -28,4 +28,10 @@ public class TimerActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }

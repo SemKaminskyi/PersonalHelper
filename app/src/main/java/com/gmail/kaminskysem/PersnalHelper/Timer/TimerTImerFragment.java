@@ -1,15 +1,20 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer;
 
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.database.Observable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +22,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import com.bcgdv.asia.lib.ticktock.TickTockView;
 import com.gmail.kaminskysem.PersnalHelper.R;
@@ -33,9 +41,8 @@ public class TimerTImerFragment extends Fragment {
     private final static String LOG_TAG = TimerTImerFragment.class.getSimpleName();
     public static final String TIMER_WORK = "TimerWork";
     public static final String TIMER_REST = "TimerRest";
-    public static final String TIME_FOR_CIRCLE_WORK = "TimerWork";
-    public static final String TIME_FOR_CIRCLE_REST = "TimerRest";
-
+    public static final String TIME_FOR_CIRCLE_WORK = "TimerWorkCircle";
+    public static final String TIME_FOR_CIRCLE_REST = "TimerRestCircle";
 
 
     EditText etWork;
@@ -57,14 +64,21 @@ public class TimerTImerFragment extends Fragment {
 
     public static final String BROADCAST_ACTION = " com.gmail.kaminskysem.PersnalHelper.Timer";
     private TickTockView mCountDown;
-    private String timeFromBroadcastWork;
+    private String timeFromBroadcastWorkToTV;
 
-    private int workFromBroadcastInt =-1;
+    // variable to widget
     private String workFromBroadcastStr;
-    private int restFromBroadcastInt =-1;
     private String restFromBroadcastStr;
-    int iEnd=-1;
+    int iEnd = -1;
     private IntentFilter intentFilter;
+    private Calendar start;
+    private Calendar end;
+
+    //variable to activate bntStart
+    private boolean changeETWork= false;
+    private boolean changeETRest= false;
+    private TextWatcher textWatcher ;
+
 
 
     @Nullable
@@ -75,21 +89,29 @@ public class TimerTImerFragment extends Fragment {
         TimerReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                timeFromBroadcastWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
-                textViewTimer.setText(timeFromBroadcastWork);
-
+                timeFromBroadcastWorkToTV = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
+                textViewTimer.setText(timeFromBroadcastWorkToTV);
+                //receive massage from TimerService time Work
                 workFromBroadcastStr = intent.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK);
-                if(workFromBroadcastStr!=null){
-                workFromBroadcastInt = Integer.parseInt(workFromBroadcastStr);
+                if (workFromBroadcastStr != null) {
+                    stopWidget();
+                    iEnd = Integer.parseInt(workFromBroadcastStr);
+                    startWidget();
+                    restFromBroadcastStr = null;
                 }
 
+                //receive massage from TimerService time REST
                 restFromBroadcastStr = intent.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST);
+
                 if (restFromBroadcastStr != null) {
-                restFromBroadcastInt = Integer.parseInt(restFromBroadcastStr);
+                    stopWidget();
+                    iEnd = Integer.parseInt(restFromBroadcastStr);
+                    end.add(Calendar.MINUTE, iEnd);
+                    startWidget();
+                    workFromBroadcastStr = null;
                 }
 
-
-                Log.i(LOG_TAG, " broadcast caught: " + timeFromBroadcastWork);
+                Log.i(LOG_TAG, " broadcast caught: " + timeFromBroadcastWorkToTV);
             }
 
         };
@@ -107,41 +129,42 @@ public class TimerTImerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        //init EDIT TExt
         etWork = Objects.requireNonNull(getView()).findViewById(R.id.et_Timer_time_to_work);
         etRest = Objects.requireNonNull(getView().findViewById(R.id.et_Timer_time_to_rest));
-
-
+        //init textview
         textViewTimer = getView().findViewById(R.id.tv_Timer);
-
+        //init button
         bntStart = getView().findViewById(R.id.btn_timer_start);
-
         bntStop = getView().findViewById(R.id.btn_timer_stop);
 
         mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.ticking_clock);
 
-        etWork.setText("0");
-        etRest.setText("0");
+        //add calendar for widget
+        start = Calendar.getInstance();
+        start.add(Calendar.MINUTE, 0);
+        end = Calendar.getInstance();
+
+//        etWork.setText("0");
+//        etRest.setText("0");
 
         //add timer widget
         mCountDown = new TickTockView(Objects.requireNonNull(getContext()));
         mCountDown = (TickTockView) getView().findViewById(R.id.view_ticktock_countdown);
+        addWidget();
+        bntStart.setEnabled(false);
 
 
         //Btn START onClIck
         bntStart.setOnClickListener(v -> {
             stringWorkTimer = etWork.getText().toString();
             stringRestTimer = etRest.getText().toString();
-//            try {
-//                if (stringWorkTimer==null && stringRestTimer==null){
-//                    new NonTwoTimeExceptions( "You must enter two time to work timer");
-//                }
-//            }catch (NonTwoTimeExceptions e){
-//
-//            }
+
             Log.d(LOG_TAG, "TimerWorkFragment is " + stringWorkTimer);
             Log.d(LOG_TAG, "TimerRestFragment is " + stringRestTimer);
 
+
+            //add time to service
             Intent intentStart = new Intent(getView().getContext(), TimerService.class)
                     .putExtra(TIMER_WORK, stringWorkTimer)
                     .putExtra(TIMER_REST, stringRestTimer)
@@ -167,51 +190,16 @@ public class TimerTImerFragment extends Fragment {
                     Log.d(LOG_TAG, "TimerFragment Disconnected");
                 }
             };
-            getView().getContext().bindService(intentStart, serviceConnection, TimerService.BIND_AUTO_CREATE);
+            Objects.requireNonNull(getView()).getContext()
+                    .bindService(intentStart,
+                            serviceConnection,
+                            TimerService.BIND_AUTO_CREATE);
 
 
             Log.d(LOG_TAG, "bntStart ON Clicked " + v);
 
             Log.d(LOG_TAG, "text to fragment work ");
             Log.d(LOG_TAG, "text to fragment rest ");
-
-
-
-            //add calendar for widget
-            Calendar end = Calendar.getInstance();
-
-            if(workFromBroadcastInt>0){
-                restFromBroadcastInt =-1;
-                iEnd = workFromBroadcastInt;
-                if (mCountDown!=null){
-                mCountDown.stop();
-                addTimerWidget();
-                }
-            }else {
-                workFromBroadcastInt=-1;
-                iEnd= restFromBroadcastInt;
-                if (mCountDown!=null){
-                    mCountDown.stop();
-                    addTimerWidget();
-                }
-            }
-
-            end.add(Calendar.MINUTE, iEnd);
-
-
-            Calendar start = Calendar.getInstance();
-            start.add(Calendar.MINUTE, 0);
-            if (mCountDown != null && timeFromBroadcastWork!=null) {
-                mCountDown.start(start, end);
-            }
-//            Calendar c2= Calendar.getInstance();
-//            c2.add(Calendar.MINUTE, Integer.parseInt(stringWorkTimer));
-//            c2.set(Calendar.SECOND, 0);
-//            c2.set(Calendar.MILLISECOND, 0);
-//            if (mCountDown != null) {
-//                mCountDown.start(c2);
-//            }
-
 
 
         });
@@ -231,12 +219,11 @@ public class TimerTImerFragment extends Fragment {
 
             Log.d(LOG_TAG, "Service  is stopped from fragment ");
 
-            mCountDown.stop();
+            stopWidget();
         });
     }
 
-    private void addTimerWidget() {
-
+    private void addWidget() {
 
         if (mCountDown != null) {
             ((TickTockView) mCountDown).setOnTickListener(new TickTockView.OnTickListener() {
@@ -259,16 +246,63 @@ public class TimerTImerFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
+        checkOnChangeETWork();
+        checkOnChangeETRest();
+
     }
+
+    private void checkOnChangeETWork() {
+//        if(textWatcher!=null){
+//            etRest.removeTextChangedListener(textWatcher);
+//        }
+       etWork.addTextChangedListener(textWatcher = new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+           @Override
+           public void onTextChanged(CharSequence s, int start, int before, int count) {
+               if(etWork.getText().toString().length()>0&&etRest.getText().toString().length()>0){
+                   bntStart.setEnabled(true);
+               } else {
+                   bntStart.setEnabled(false);
+               }
+           }
+
+           @Override
+           public void afterTextChanged(Editable s) { }
+       });
+
+
+    }
+    private void checkOnChangeETRest() {
+//        if(textWatcher!=null){
+//            etWork.removeTextChangedListener(textWatcher);
+//        }
+        etRest.addTextChangedListener(textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(etWork.getText().toString().length()>0&&etRest.getText().toString().length()>0){
+                    bntStart.setEnabled(true);
+                } else {
+                    bntStart.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+
+    }
+
+
 
     @Override
     public void onDestroyView() {
@@ -276,6 +310,7 @@ public class TimerTImerFragment extends Fragment {
         mediaPlayer.stop();
         mediaPlayer.reset();
         mediaPlayer.release();
+        stopWidget();
         Objects.requireNonNull(getView()).getContext().unregisterReceiver(TimerReceiver);
     }
 
@@ -285,9 +320,26 @@ public class TimerTImerFragment extends Fragment {
 //        }
 //    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+
+    private void stopWidget() {
+        if (mCountDown != null) {
+            mCountDown.refreshDrawableState();
+            mCountDown.stop();
+
+        }
+    }
+
+    private void startWidget() {
+        if (iEnd >= 0 && end != null) {
+            start = Calendar.getInstance();
+            start.add(Calendar.MINUTE, 0);
+            end = Calendar.getInstance();
+            end.add(Calendar.MINUTE, iEnd);
+            start.add(Calendar.MINUTE, 0);
+            if (mCountDown != null) {
+                mCountDown.start(start, end);
+            }
+        }
 
     }
 }
