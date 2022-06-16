@@ -18,6 +18,8 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_timer_stop"
         app:layout_goneMarginBottom="@dimen/main_btn_margin_start_end_OfParent" />
 
 
@@ -35,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_Timer"
         app:layout_constraintVertical_bias="0.466"
         app:tickAutoFitText="false"
-        app:tickTextSize="1sp"
+        app:tickCircleDuration="total_time"
         app:tickDotRadius="6dp"
         app:tickEmptyRingColor="@android:color/white"
         app:tickFillRingColor="@color/Yellow"
@@ -43,33 +45,36 @@
         app:tickMoveCounterClockwise="false"
         app:tickRingThickness="3dp"
         app:tickTextColor="#333333"
-        app:tickCircleDuration="total_time"/>
+        app:tickTextSize="1sp" />
 
     <EditText
         android:id="@+id/et_Timer_time_to_work"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/main_btn_margin_start_end_OfParent"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
         android:autofillHints=""
         android:background="@color/white50alpha"
         android:hint="@string/timer_time_to_work"
+        app:layout_constraintWidth_percent=".2"
+        app:layout_constraintWidth_default="percent"
         android:inputType="numberDecimal"
         android:textColor="@color/White100"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btn_timer_start"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/et_Timer_time_to_rest"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/main_btn_margin_start_end_OfParent"
         android:layout_marginBottom="@dimen/main_btn_margin_start_end_OfParent"
         android:autofillHints=""
         android:background="@color/white50alpha"
         android:hint="@string/timer_time_to_rest"
+        app:layout_constraintWidth_percent=".2"
+        app:layout_constraintWidth_default="percent"
         android:inputType="number"
         android:textColor="@color/White100"
         android:textStyle="bold"
@@ -93,9 +98,38 @@
         android:id="@+id/btn_timer_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:text="@string/stop"
         app:layout_constraintBottom_toBottomOf="@+id/btn_timer_start"
-        app:layout_constraintEnd_toStartOf="@+id/et_Timer_time_to_rest"
-        app:layout_constraintHorizontal_bias="0.242"
-        app:layout_constraintStart_toEndOf="@+id/et_Timer_time_to_work" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_timer_start"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment_timer_help_work"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_mode_comment_24"
+        android:text="set time to WORK"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="18dp"
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/et_Timer_time_to_work"
+        app:layout_constraintEnd_toEndOf="@+id/et_Timer_time_to_work"
+        app:layout_constraintStart_toStartOf="@+id/et_Timer_time_to_work" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment_timer_help_rest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_mode_comment_24"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="18dp"
+        android:paddingTop="4dp"
+        android:text="set time to REST"
+        app:layout_constraintBottom_toTopOf="@+id/et_Timer_time_to_rest"
+        app:layout_constraintEnd_toEndOf="@+id/et_Timer_time_to_rest"
+        app:layout_constraintStart_toStartOf="@+id/et_Timer_time_to_rest" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

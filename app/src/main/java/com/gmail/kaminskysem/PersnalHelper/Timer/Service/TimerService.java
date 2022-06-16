@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -16,15 +15,14 @@ import com.gmail.kaminskysem.PersnalHelper.Notifications.TimerNotificationsManag
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerTImerFragment;
 
-public class TimerService extends Service {
-    private final static String LOG_TAG = TimerService.class.getSimpleName();
+import timber.log.Timber;
 
+public class TimerService extends Service {
     public static final String ACTION_START_TIMER = "start_timer";
     public static final String ACTION_STOP_TIMER = "stop_timer";
 
     private static CountDownTimer countDownTimerWork;
     private static CountDownTimer countDownTimeRest;
-
 
 
     private int timeWorkInt;
@@ -54,7 +52,7 @@ public class TimerService extends Service {
         TimerNotificationsManager.setupNotificationsChannels(this);
 
 
-        Log.d(LOG_TAG, "onCreateTimerService");
+        Timber.d("onCreateTimerService");
     }
 
 
@@ -65,15 +63,12 @@ public class TimerService extends Service {
         timerWork = intent.getStringExtra(TimerTImerFragment.TIMER_WORK);
         timerRest = intent.getStringExtra(TimerTImerFragment.TIMER_REST);
 
-        Log.d(LOG_TAG, "time  Work: " + timerWork);
-        Log.d(LOG_TAG, "time  rest: " + timerRest);
-        Log.d(LOG_TAG, "time  action: " + intent.getAction());
+        Timber.d("time  Work: %s", timerWork);
+        Timber.d("time  rest: %s", timerRest);
+        Timber.d("time  action: %s", intent.getAction());
         String action = intent.getAction();
- 
-
 
         mediaPlayer = MediaPlayer.create(this, R.raw.timer_din);
-
 
 
         if (ACTION_START_TIMER.equals(action)) {
@@ -84,7 +79,7 @@ public class TimerService extends Service {
             int convertToMinutes = 60000;
             long workMillis = Long.parseLong(timerWork) * convertToMinutes;
             assert timerRest != null;
-            long restMillis = Integer.parseInt(timerRest) * convertToMinutes;
+            long restMillis = (long) Integer.parseInt(timerRest) * convertToMinutes;
             runWork(workMillis, restMillis);
 
             // start notifications
@@ -92,7 +87,7 @@ public class TimerService extends Service {
             startForeground(
                     Integer.parseInt(TimerNotificationsManager.getIdTimerServiceNotification())
                     , TimerNotificationsManager.getNotification());
-            Log.d(LOG_TAG, "Start foreground: ");
+            Timber.d("Start foreground: ");
             return START_STICKY;
         }
 
@@ -112,11 +107,11 @@ public class TimerService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
 
-        Log.d(LOG_TAG, "timerBinder onBind");
+        Timber.d("timerBinder onBind");
         return binder;
     }
 
-    private String formatTime ( Integer seconds){
+    private String formatTime(Integer seconds) {
         @SuppressLint("DefaultLocale")
         String b = String.format("%d:%02d:%02d", seconds / 3600,
                 (seconds % 3600) / 60, (seconds % 60));
@@ -125,12 +120,13 @@ public class TimerService extends Service {
 
     private void runWork(long workMillis, long restMillis) {
         //add broadcast to draw circle
-            Intent workInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-            workInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK,timerWork);
-            workInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            sendBroadcast(workInt);
+        Intent workInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
+        workInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK, timerWork);
+        workInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        sendBroadcast(workInt);
 
-        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_WORK to Broadcast " +workInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK) );
+        Timber.d("TIME_FOR_CIRCLE_WORK to Broadcast %s",
+                workInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_WORK));
 
         // cancel any previous timers
         cancelTimers();
@@ -143,7 +139,6 @@ public class TimerService extends Service {
                 timeWorkInt = (int) (millisUntilFinished / 1000);
 
 
-
                 timeWorkString = "time of  Work: " + formatTime(timeWorkInt);
 //                Log.d(LOG_TAG, " on Tick work" + timeWorkInt);
 
@@ -152,9 +147,9 @@ public class TimerService extends Service {
 //                Log.d(LOG_TAG, " on Tick work String to notifications " + timeWorkString);
 
                 Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-                intent.putExtra(TimerTImerFragment.TIMER_WORK,timeWorkString);
+                intent.putExtra(TimerTImerFragment.TIMER_WORK, timeWorkString);
                 sendBroadcast(intent);
-                Log.d(LOG_TAG, " intent to Broadcast : " +timeWorkString );
+                Timber.d("intent to Broadcast : %s", timeWorkString);
 
             }
 
@@ -162,7 +157,7 @@ public class TimerService extends Service {
             @Override
             public void onFinish() {
 
-                Log.d(LOG_TAG, " finishedWork on timer: " + this);
+                Timber.d(" finishedWork on timer: %s", this);
                 mediaPlayer.start();
                 runRest(workMillis, restMillis);
 
@@ -180,10 +175,11 @@ public class TimerService extends Service {
     private void runRest(long workMillis, long restMillis) {
         //add broadcast to draw circle
         Intent restInt = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-        restInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST,timerRest);
+        restInt.putExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST, timerRest);
         restInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         sendBroadcast(restInt);
-        Log.d(LOG_TAG, " TIME_FOR_CIRCLE_REST to Broadcast " +restInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST)  );
+        Timber.d(" TIME_FOR_CIRCLE_REST to Broadcast %s",
+                restInt.getStringExtra(TimerTImerFragment.TIME_FOR_CIRCLE_REST));
 
         countDownTimeRest = new CountDownTimer(restMillis, 1000) {
 
@@ -195,21 +191,21 @@ public class TimerService extends Service {
 
                 timeRestString = "time of Rest: " + formatTime(timeRestInt);
 
-                Log.d(LOG_TAG, " on TickRest" + timeRestInt);
-                Log.d(LOG_TAG, " on Tick rest String to notifications " + timeRestString);
+                Timber.d(" on TickRest%s", timeRestInt);
+                Timber.d(" on Tick rest String to notifications %s", timeRestString);
                 TimerNotificationsManager.showTimerNotifications(getBaseContext(), timeRestString);
 
                 Intent intent = new Intent(TimerTImerFragment.BROADCAST_ACTION);
-                intent.putExtra(TimerTImerFragment.TIMER_WORK,timeRestString);
+                intent.putExtra(TimerTImerFragment.TIMER_WORK, timeRestString);
                 sendBroadcast(intent);
-                Log.d(LOG_TAG, " intent to Broadcast " +timeRestString );
+                Timber.d(" intent to Broadcast %s", timeRestString);
             }
 
 
             @SuppressLint("SetTextI18n")
             @Override
             public void onFinish() {
-                Log.d(LOG_TAG, " finished Rest on timer: " + this);
+                Timber.d(" finished Rest on timer: %s", this);
                 mediaPlayer.start();
                 runWork(workMillis, restMillis);
 
@@ -226,7 +222,7 @@ public class TimerService extends Service {
     @Override
     public void onRebind(Intent intent) {
         super.onRebind(intent);
-        Log.d(LOG_TAG, "MyService onRebind");
+        Timber.d("MyService onRebind");
     }
 
     public void cancelByUser() {
@@ -259,6 +255,7 @@ public class TimerService extends Service {
         // important - not call cancelByUser here - it will stop service and android will not restart it
         cancelTimers();
     }
+
     public int getTimeWorkInt() {
         return timeWorkInt;
     }

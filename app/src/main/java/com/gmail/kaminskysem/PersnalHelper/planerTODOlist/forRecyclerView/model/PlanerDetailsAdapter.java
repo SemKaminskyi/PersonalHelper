@@ -1,5 +1,6 @@
 package com.gmail.kaminskysem.PersnalHelper.planerTODOlist.forRecyclerView.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class PlanerDetailsAdapter extends RecyclerView.Adapter<PlanerDetailsView
         new Thread(()-> planerDetailsList = userPlanerDaoProvider.getTaskList()).start();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setPlaner(List<PlanerDetails> task){
         Thread one =new Thread(()-> planerDetailsList = userPlanerDaoProvider.getTaskList());
         one.start();

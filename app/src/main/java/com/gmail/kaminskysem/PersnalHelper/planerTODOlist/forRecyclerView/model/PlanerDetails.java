@@ -26,11 +26,6 @@ public class PlanerDetails {
         this.checkTask = false;
     }
 
-//    public PlanerDetails(long taskID, String taskString, boolean checkTask) {
-//        this.taskString = taskString;
-//        this.checkTask = checkTask;
-//        this.taskID =taskID;
-//    }
 
     public Long getTaskID() {
         return taskID;

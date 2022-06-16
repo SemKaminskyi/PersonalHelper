@@ -2,45 +2,46 @@ package com.gmail.kaminskysem.PersnalHelper.Main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.gmail.kaminskysem.PersnalHelper.BuildConfig;
+import com.bcgdv.asia.lib.ticktock.BuildConfig;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerActivity;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static String LOG_TAG = MainActivity.class.getSimpleName();
 
 //TODO add orientation to mode 2 apps in one screen
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         View.OnClickListener btnOnClickPlaner = v -> {
-            if(BuildConfig.DEBUG){
-            Log.d(LOG_TAG,"btnOnClickPlaner"+v);
+            if (BuildConfig.DEBUG) {
+                Timber.d("btnOnClickPlaner%s", v);
             }
             Intent mainActPlaner = new Intent(MainActivity.this, PlanerActivity.class);
             startActivity(mainActPlaner);
-            Toast.makeText(MainActivity.this,"You click on Planer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "You click on Planer", Toast.LENGTH_SHORT).show();
         };
         View.OnClickListener btnOnClickTimer = v -> {
-            if(BuildConfig.DEBUG){
+            if (BuildConfig.DEBUG) {
 
-            Log.d(LOG_TAG, "btnOnClickTimer"+v);
+                Timber.d("btnOnClickTimer%s", v);
             }
             Intent mainActTimer = new Intent(MainActivity.this, TimerActivity.class);
             startActivity(mainActTimer);
-            Toast.makeText(MainActivity.this,"You click on Timer", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "You click on Timer", Toast.LENGTH_LONG).show();
         };
 
 
@@ -50,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
         Button btnTimer = findViewById(R.id.btn_clockwork);
         btnTimer.setOnClickListener(btnOnClickTimer);
 
-        Log.d(LOG_TAG, "OnCreate, "+this);
+        Timber.d("OnCreate, %s", this);
 
         FragmentMainScrollingImages fragmentMainScrollingImages = new FragmentMainScrollingImages();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main_image_container,fragmentMainScrollingImages)
+                .replace(R.id.fragment_main_image_container, fragmentMainScrollingImages)
                 .commit();
 
     }
@@ -62,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
 
-        Log.d(LOG_TAG, "onStart, "+this);
+            Timber.d("onStart, %s", this);
         }
     }
 
@@ -85,24 +86,24 @@ public class MainActivity extends AppCompatActivity {
 //                ViewGroup.LayoutParams.WRAP_CONTENT));
 
 
-        Log.d(LOG_TAG, "onResume, "+this);
+        Timber.d("onResume, %s", this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(LOG_TAG, "onPause, "+this);
+        Timber.d("onPause, %s", this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(LOG_TAG, "onStop, "+this);
+        Timber.d("onStop, %s", this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy, "+this);
+        Timber.d("onDestroy, %s", this);
     }
 }

@@ -9,7 +9,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -17,22 +16,20 @@ import androidx.core.app.NotificationManagerCompat;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.Service.TimerService;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
-import com.gmail.kaminskysem.PersnalHelper.Timer.TimerTImerFragment;
+
+import timber.log.Timber;
 
 public class TimerNotificationsManager {
 
-    public static final String LOG_TAG = TimerNotificationsManager.class.getSimpleName();
     @SuppressLint("StaticFieldLeak")
     private static NotificationManagerCompat notificationManager;
     private static Notification notification;
-    private static int idTimerServiceNotification =1;
-    private static final String OTHER_TIME ="0";
+    private static final int idTimerServiceNotification = 1;
+    private static final String OTHER_TIME = "0";
 
-    private static String getChanelIDTasks (Context context){
+    private static String getChanelIDTasks(Context context) {
         return context.getString(R.string.default_notification_channel_id);
     }
-
-
 
     @TargetApi(Build.VERSION_CODES.O)
     public static void setupNotificationsChannels(Context context) {
@@ -49,7 +46,7 @@ public class TimerNotificationsManager {
         assert notificationChannel != null;
         notificationManager.createNotificationChannel(notificationChannel);
 
-        Log.d(LOG_TAG, "add NotificationsChannels" + notificationChannel.toString());
+        Timber.d("add NotificationsChannels%s", notificationChannel.toString());
     }
 
     public static void showTimerNotifications(Context context, String text) {
@@ -62,12 +59,12 @@ public class TimerNotificationsManager {
                 new Intent(context, TimerActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent intent = new Intent(context, TimerService.class );
+        Intent intent = new Intent(context, TimerService.class);
         intent.setAction(TimerService.ACTION_STOP_TIMER);
         PendingIntent closeService = PendingIntent.getService(context,
-                   idTimerServiceNotification,
-                    intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
+                idTimerServiceNotification,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
 
 
         notification = new NotificationCompat.Builder(context, getChanelIDTasks(context))
@@ -75,11 +72,11 @@ public class TimerNotificationsManager {
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_clock1_foreground)
                 .setContentIntent(mainContent)
-                .addAction(0,"Stop Timer", closeService)
+                .addAction(0, "Stop Timer", closeService)
                 .build();
         notificationsManagerCompat.notify(idTimerServiceNotification, notification);
 
-        Log.d(LOG_TAG, "showTimerNotifications " + text);
+        Timber.d("showTimerNotifications %s", text);
 
     }
 
@@ -89,6 +86,6 @@ public class TimerNotificationsManager {
 
 
     public static String getIdTimerServiceNotification() {
-        return  String.valueOf(idTimerServiceNotification);
+        return String.valueOf(idTimerServiceNotification);
     }
 }

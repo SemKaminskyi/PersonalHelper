@@ -1,7 +1,5 @@
 package com.gmail.kaminskysem.PersnalHelper.Timer;
 
-import com.google.android.gms.common.data.DataBufferObserver;
-
 import java.io.Serializable;
 import java.util.Observable;
 

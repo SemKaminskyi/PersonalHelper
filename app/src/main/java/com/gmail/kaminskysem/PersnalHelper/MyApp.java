@@ -9,6 +9,9 @@ import com.gmail.kaminskysem.PersnalHelper.DI.DBModule;
 import com.gmail.kaminskysem.PersnalHelper.DI.DaggerApplicationsComponent;
 import com.gmail.kaminskysem.PersnalHelper.Notifications.MyFirebaseMessagingService;
 
+import timber.log.Timber;
+
+
 public class MyApp extends Application {
 
 
@@ -22,6 +25,10 @@ public class MyApp extends Application {
                 .dBModule(new DBModule())
                         .build();
         MyFirebaseMessagingService.registerForPushNotifications ();
+
+        if(BuildConfig.DEBUG){
+            Timber.plant(new Timber.DebugTree());// <- this wrong is NOT WRONG
+        }
 
     }
     public  static ApplicationsComponent getApplicationsComponent (Context context){

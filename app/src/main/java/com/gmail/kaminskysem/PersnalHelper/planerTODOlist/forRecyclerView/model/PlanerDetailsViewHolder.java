@@ -37,39 +37,29 @@ public class PlanerDetailsViewHolder extends RecyclerView.ViewHolder {
         tvIdTask = itemView.findViewById(R.id.tv_text_id);
         MyApp.getApplicationsComponent(itemView.getContext()).inject (this);
 
-
-
-
     }
 
     @SuppressLint("SetTextI18n")
     void Bind (PlanerDetails planerDetails) {
-
         if(textWatcher !=null){
             editTextTask.removeTextChangedListener(textWatcher);
         }
         textWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
                 // save to db
-
                 planerDetails.setTaskString(s.toString());
                 new Thread(()->{
                     userPlanerDaoProvider.updateTaskWithId(planerDetails);
                 }).start();
 
             }
-
         };
 
         tvIdTask.setText(planerDetails.getTaskID().toString());
