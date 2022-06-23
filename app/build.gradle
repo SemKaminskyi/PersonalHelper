@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'kotlin-android'
 
 android {
     signingConfigs {
@@ -65,6 +66,9 @@ android {
         includeInApk false
         includeInBundle false
     }
+    //viewBinding{
+//        enabled =true
+//    }
 }
 
 
