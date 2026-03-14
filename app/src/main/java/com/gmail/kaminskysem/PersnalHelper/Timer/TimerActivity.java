@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.gmail.kaminskysem.PersnalHelper.Main.FragmentMainScrollingImages;
+//import com.gmail.kaminskysem.PersnalHelper.Main.FragmentMainScrollingImages;
 import com.gmail.kaminskysem.PersnalHelper.R;
 
 public class TimerActivity extends AppCompatActivity {
@@ -21,10 +21,10 @@ public class TimerActivity extends AppCompatActivity {
                 .commit();
 
         // add fragment from main activity
-        FragmentMainScrollingImages fragmentMainScrollingImages = new FragmentMainScrollingImages();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main_image_container,fragmentMainScrollingImages)
-                .commit();
+//        FragmentMainScrollingImages fragmentMainScrollingImages = new FragmentMainScrollingImages();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_main_image_container,fragmentMainScrollingImages)
+//                .commit();
 
 
     }

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bcgdv.asia.lib.ticktock.BuildConfig;
+import com.gmail.kaminskysem.PersnalHelper.BuildConfig;
 import com.gmail.kaminskysem.PersnalHelper.R;
 import com.gmail.kaminskysem.PersnalHelper.Timer.TimerActivity;
 import com.gmail.kaminskysem.PersnalHelper.planerTODOlist.PlanerActivity;
@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
         Timber.d("OnCreate, %s", this);
 
-        FragmentMainScrollingImages fragmentMainScrollingImages = new FragmentMainScrollingImages();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main_image_container, fragmentMainScrollingImages)
-                .commit();
+//        FragmentMainScrollingImages fragmentMainScrollingImages = new FragmentMainScrollingImages();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_main_image_container, fragmentMainScrollingImages)
+//                .commit();
 
     }
 

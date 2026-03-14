@@ -2,7 +2,6 @@ package com.gmail.kaminskysem.PersnalHelper.Notifications;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -40,15 +39,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     public static void registerForPushNotifications() {
-        FirebaseInstanceId.getInstance().getInstanceId()
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
-                        Timber.w(task.getException(), "getInstanceId failed");
+                        Timber.w(task.getException(), "Fetching FCM registration token failed");
                         return;
                     }
 
                     // Get new Instance ID token
-                    String token = Objects.requireNonNull(task.getResult()).getToken();
+                    String token = task.getResult();
 
                     // Log and toast
                     Timber.d("firebase token: %s", token);
