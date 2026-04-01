@@ -1,42 +1,38 @@
-package com.gmail.kaminskysem.PersnalHelper;
+package com.gmail.kaminskysem.PersnalHelper
 
-import android.app.Application;
-import android.content.Context;
+import android.app.Application
+import android.content.Context
+import com.gmail.kaminskysem.PersnalHelper.DI.AppModule
+import com.gmail.kaminskysem.PersnalHelper.DI.ApplicationsComponent
+import com.gmail.kaminskysem.PersnalHelper.DI.DBModule
+import com.gmail.kaminskysem.PersnalHelper.DI.DaggerApplicationsComponent
+import com.gmail.kaminskysem.PersnalHelper.Notifications.MyFirebaseMessagingService
+import timber.log.Timber
 
-import com.gmail.kaminskysem.PersnalHelper.DI.AppModule;
-import com.gmail.kaminskysem.PersnalHelper.DI.ApplicationsComponent;
-import com.gmail.kaminskysem.PersnalHelper.DI.DBModule;
-import com.gmail.kaminskysem.PersnalHelper.DI.DaggerApplicationsComponent;
-import com.gmail.kaminskysem.PersnalHelper.Notifications.MyFirebaseMessagingService;
+class MyApp : Application() {
 
-import timber.log.Timber;
+    lateinit var applicationsComponent: ApplicationsComponent
+        private set
 
-
-public class MyApp extends Application {
-
-
-    private ApplicationsComponent applicationsComponent;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    override fun onCreate() {
+        super.onCreate()
+        
         applicationsComponent = DaggerApplicationsComponent.builder()
-                .appModule(new AppModule(this))
-                .dBModule(new DBModule())
-                        .build();
-        MyFirebaseMessagingService.registerForPushNotifications ();
+            .appModule(AppModule(this))
+            .dBModule(DBModule())
+            .build()
+            
+        MyFirebaseMessagingService.registerForPushNotifications()
 
-        if(BuildConfig.DEBUG){
-            Timber.plant(new Timber.DebugTree());// <- this wrong is NOT WRONG
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree()) // <- this wrong is NOT WRONG
         }
-
-    }
-    public  static ApplicationsComponent getApplicationsComponent (Context context){
-        return  ((MyApp)context.getApplicationContext()).getApplicationsComponent();
     }
 
-    public ApplicationsComponent getApplicationsComponent() {
-        return applicationsComponent;
+    companion object {
+        @JvmStatic
+        fun getApplicationsComponent(context: Context): ApplicationsComponent {
+            return (context.applicationContext as MyApp).applicationsComponent
+        }
     }
-
 }

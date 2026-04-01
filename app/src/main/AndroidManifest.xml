@@ -23,7 +23,7 @@
 
         </activity>
         <activity
-            android:name=".Main.MainActivity"
+            android:name=".main.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="userPortrait"
             android:exported="true"

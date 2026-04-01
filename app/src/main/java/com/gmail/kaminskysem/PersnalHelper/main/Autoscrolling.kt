@@ -1,4 +1,4 @@
-package com.gmail.kaminskysem.PersnalHelper.Main
+package com.gmail.kaminskysem.PersnalHelper.main
 
 import android.content.Context
 import com.gmail.kaminskysem.PersnalHelper.R

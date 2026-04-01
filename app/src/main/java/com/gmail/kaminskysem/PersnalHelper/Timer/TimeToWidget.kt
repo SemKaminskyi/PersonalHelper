@@ -1,18 +1,21 @@
-package com.gmail.kaminskysem.PersnalHelper.Timer;
+package com.gmail.kaminskysem.PersnalHelper.Timer
 
-import java.io.Serializable;
-import java.util.Observable;
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import java.io.Serializable
 
-public class TimeToWidget extends Observable implements Serializable {
-    private int time;
+class TimeToWidget : Serializable {
+    
+    @Transient // to avoid serialization issues with Flow
+    private val _timeFlow = MutableStateFlow(0)
+    
+    val timeFlow: StateFlow<Int> 
+        get() = _timeFlow.asStateFlow()
 
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-        this.setChanged();
-        this.notifyObservers(time);
-    }
+    var time: Int
+        get() = _timeFlow.value
+        set(value) {
+            _timeFlow.value = value
+        }
 }
